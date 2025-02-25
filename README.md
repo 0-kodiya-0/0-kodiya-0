@@ -2,9 +2,9 @@
 
 <div align="center">
   
-# `console.log('Hello World! 👋')`
+# `console.log('Hi There! 👋')`
 
-<img src="https://komarev.com/ghpvc/?username=0-kodiya-0&style=for-the-badge&color=1A1B27" alt="Profile Views" />
+[![Profile Views](https://komarev.com/ghpvc/?username=0-kodiya-0&style=for-the-badge&color=1A1B27)](https://github.com/0-kodiya-0)
 
 </div>
 
@@ -50,6 +50,13 @@ const developer = {
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
 
+### `// Tools & Build Systems`
+![Webpack](https://img.shields.io/badge/Webpack-8DD6F9?style=for-the-badge&logo=webpack&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Babel](https://img.shields.io/badge/Babel-F9DC3E?style=for-the-badge&logo=babel&logoColor=black)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
+
 ### `// Editors of Choice`
 ![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000?style=for-the-badge&logo=intellij-idea&logoColor=white)
@@ -59,11 +66,15 @@ const developer = {
 ## `> git stats --pretty`
 
 <div align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=0-kodiya-0&theme=tokyonight&hide_border=true" />
-  <br />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=0-kodiya-0&layout=compact&theme=tokyonight&hide_border=true" />
-  <br />
-  <img src="https://leetcode-stats.vercel.app/api?username=sanithujayafiverr&theme=Dark" />
+
+[![GitHub Streak](https://streak-stats.demolab.com?user=0-kodiya-0&theme=tokyonight&hide_border=true)](https://git.io/streak-stats)
+
+[![GitHub Stats](https://github-readme-stats.vercel.app/api?username=0-kodiya-0&show_icons=true&theme=tokyonight&hide_border=true)](https://github.com/anuraghazra/github-readme-stats)
+
+[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=0-kodiya-0&layout=compact&theme=tokyonight&hide_border=true)](https://github.com/anuraghazra/github-readme-stats)
+
+[![LeetCode Stats](https://leetcode-stats.vercel.app/api?username=sanithujayafiverr&theme=Dark)](https://leetcode.com/sanithujayafiverr/)
+
 </div>
 
 ## `> cat contact.json`
@@ -84,16 +95,28 @@ const developer = {
   
 </div>
 
-<div align="center">
+## `> ./developer.js --run`
 
 ```javascript
-// Thanks for visiting my profile!
-while(alive) {
-  eat();
-  sleep();
-  code();
-  repeat();
+// Life of a passionate developer
+function lifeOfDeveloper() {
+  const day = new Date().getDay();
+  
+  if(isBugFound()) {
+    fixBug();
+    coffee++;
+  }
+  
+  if(coffee < 3) {
+    refillCoffee();
+  }
+  
+  const todaysProgress = code();
+  
+  // No matter what, keep coding!
+  return tomorrow(lifeOfDeveloper);
 }
-```
 
-</div>
+// Running infinitely...
+setInterval(lifeOfDeveloper, 24 * 60 * 60 * 1000);
+```
