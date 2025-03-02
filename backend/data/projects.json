@@ -1,0 +1,79 @@
+{
+    "projects": [
+      {
+        "id": 1,
+        "title": "E-commerce Platform",
+        "description": "A full-featured e-commerce platform with product management, cart functionality, and payment integration.",
+        "longDescription": "This e-commerce platform provides a complete solution for online retail businesses. \nThe application includes a responsive storefront, comprehensive product management, shopping cart functionality, secure checkout, and integration with popular payment gateways.\n\nKey features include:\n- Product catalog with categories, filters, and search\n- User authentication and account management\n- Shopping cart and wishlist functionality\n- Order management and tracking\n- Admin dashboard for product and inventory management\n- Analytics and reporting tools\n- Integration with Stripe for payment processing",
+        "technologies": ["Next.js", "Node.js", "MongoDB", "Stripe"],
+        "image": "🛒",
+        "projectUrl": "https://ecommerce-demo.sanithu.dev",
+        "githubUrl": "https://github.com/sanithu/ecommerce-platform",
+        "challenges": [
+          "Implementing a responsive design that works seamlessly across devices",
+          "Setting up secure payment processing with proper error handling",
+          "Optimizing database queries for improved performance",
+          "Building a robust product search with filters and sorting options"
+        ],
+        "solutions": [
+          "Used Tailwind CSS for responsive design with custom breakpoints",
+          "Implemented Stripe integration with comprehensive error handling and webhooks",
+          "Created database indexes and optimized MongoDB queries",
+          "Built a flexible search system with multiple filter options"
+        ],
+        "featured": true,
+        "createdAt": "2023-10-15T12:00:00.000Z",
+        "updatedAt": "2023-11-20T15:30:00.000Z"
+      },
+      {
+        "id": 2,
+        "title": "Real-time Chat Application",
+        "description": "A real-time messaging platform with features like user presence, read receipts, and media sharing.",
+        "longDescription": "This real-time chat application enables seamless communication between users with instant messaging capabilities.\n\nThe application is built using a modern tech stack with Socket.io for real-time functionality and React for a responsive UI. The backend is powered by Node.js and Express, with MongoDB for data persistence.\n\nKey features include:\n- Real-time messaging with typing indicators\n- User presence status (online/offline/away)\n- Read receipts and message status\n- Media and file sharing\n- Group chats and direct messaging\n- Message history and search\n- Notifications for new messages",
+        "technologies": ["React", "Socket.io", "Express", "MongoDB", "Redis"],
+        "image": "💬",
+        "projectUrl": "https://chat-app.sanithu.dev",
+        "githubUrl": "https://github.com/sanithu/chat-app",
+        "challenges": [
+          "Managing real-time connections at scale",
+          "Handling offline message delivery and synchronization",
+          "Optimizing for performance on mobile devices",
+          "Implementing secure user authentication"
+        ],
+        "solutions": [
+          "Used Redis for pub/sub and Socket.io for real-time communication",
+          "Implemented a message queue for offline users",
+          "Created a lightweight mobile-first design with progressive enhancement",
+          "Integrated JWT authentication with refresh tokens"
+        ],
+        "featured": true,
+        "createdAt": "2023-08-05T10:15:00.000Z",
+        "updatedAt": "2023-10-18T14:25:00.000Z"
+      },
+      {
+        "id": 3,
+        "title": "Portfolio Website",
+        "description": "A responsive portfolio website built with Next.js and Tailwind CSS (this website).",
+        "longDescription": "This is the website you're currently viewing! It's designed to showcase my projects, skills, and experience as a developer.\n\nThe site is built with Next.js and Tailwind CSS, focusing on modern design principles, accessibility, and performance. The content is managed through a custom CMS built with Express and LowDB.\n\nKey features include:\n- Responsive design that works on all devices\n- Dark/light mode support\n- Fast page loads with optimized assets\n- Interactive project showcase\n- Custom content management system\n- SEO optimization\n- Accessibility considerations",
+        "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Express", "LowDB"],
+        "image": "👨‍💻",
+        "projectUrl": "https://sanithu-jayakody.com",
+        "githubUrl": "https://github.com/sanithu/portfolio",
+        "challenges": [
+          "Creating a design that stands out while maintaining professionalism",
+          "Building a custom CMS that's simple yet powerful",
+          "Optimizing for performance and SEO",
+          "Ensuring accessibility for all users"
+        ],
+        "solutions": [
+          "Used a code-themed design with custom animations and transitions",
+          "Developed a lightweight CMS with LowDB and JWT authentication",
+          "Implemented Next.js image optimization and code splitting",
+          "Followed WCAG guidelines and tested with screen readers"
+        ],
+        "featured": true,
+        "createdAt": "2024-01-10T09:00:00.000Z",
+        "updatedAt": "2024-01-30T16:45:00.000Z"
+      }
+    ]
+  }
