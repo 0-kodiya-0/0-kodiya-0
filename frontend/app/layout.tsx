@@ -1,3 +1,6 @@
+import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
+
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
@@ -68,9 +71,11 @@ export const metadata: Metadata = {
   },
 };
 
+// Load JetBrains Mono with subsets to reduce bundle size
 const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  style: "normal"
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
 })
 
 export default function RootLayout({
@@ -80,10 +85,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${jetBrainsMono} antialiased`}
-      >
-        {children}
+      <body className={`${jetBrainsMono.variable} font-sans antialiased`}>
+        <main className="min-h-screen flex flex-col">
+          <Navbar />
+          {children}
+          <Footer />
+        </main>
       </body>
     </html>
   );
