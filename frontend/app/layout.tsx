@@ -4,6 +4,15 @@ import Navbar from "@/components/layout/Navbar";
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import PageTransition from "@/components/layout/PageTransition";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
+
+// Load JetBrains Mono with subsets to reduce bundle size
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: "Sanithu Jayakody | Portfolio",
@@ -71,13 +80,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Load JetBrains Mono with subsets to reduce bundle size
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
-  display: 'swap',
-})
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -86,11 +88,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${jetBrainsMono.variable} font-sans antialiased`}>
-        <main className="min-h-screen flex flex-col">
-          <Navbar />
-          {children}
-          <Footer />
-        </main>
+        <ThemeProvider>
+          <main className="min-h-screen flex flex-col">
+            <Navbar />
+            <PageTransition>
+              {children}
+            </PageTransition>
+            <Footer />
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );

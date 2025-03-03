@@ -1,66 +1,121 @@
+'use client';
+
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { DotPattern } from '../magicui/dot-pattern';
+import { TypingAnimation } from '../magicui/typing-animation';
 
 export default function HeroSection() {
     return (
-        <section className="flex flex-col md:flex-row justify-between items-center py-20 px-6 md:px-10 max-w-7xl mx-auto w-full">
-            <div className="md:w-1/2 space-y-6 animate-fade-in">
-                <div className="terminal-header">
-                    <div className="terminal-dot bg-red-500"></div>
-                    <div className="terminal-dot bg-yellow-500"></div>
-                    <div className="terminal-dot bg-green-500"></div>
-                    <span className="text-sm ml-2 text-(--syntax-comment)">~/portfolio/intro.sh</span>
-                </div>
-                <h1 className="text-5xl font-bold leading-tight">
-                    <span className="block">Backend Whisperer &</span>
-                    <span className="gradient-text">Code Enthusiast</span>
-                </h1>
-                <div className="terminal p-4 my-4 font-mono text-sm">
-                    <p className="flex">
-                        <span className="text-(--syntax-keyword)">const</span>
-                        <span className="text-(--syntax-text) mx-2">developer</span>
-                        <span className="text-(--syntax-operator) mr-2">=</span>
-                        <span className="text-(--syntax-string)">&apos;Sanithu Jayakody&apos;</span>
-                        <span className="text-(--syntax-text)">;</span>
-                    </p>
-                    <p className="flex mt-2">
-                        <span className="text-(--syntax-comment)">{`// Full Stack Developer passionate about backend systems`}</span>
-                    </p>
-                    <p className="flex mt-2">
-                        <span className="text-(--syntax-keyword)">function</span>
-                        <span className="text-(--syntax-function) mx-2">getCurrentStatus</span>
-                        <span className="text-(--syntax-operator)">()</span>
-                        <span className="text-(--syntax-text) mx-2">&#123;</span>
-                    </p>
-                    <p className="flex ml-4">
-                        <span className="text-(--syntax-keyword)">return</span>
-                        <span className="text-(--syntax-string) mx-2">&apos;Still learning, still growing!&apos;</span>
-                        <span className="text-(--syntax-text)">;</span>
-                    </p>
-                    <p className="flex">
-                        <span className="text-(--syntax-text)">&#125;</span>
-                    </p>
-                </div>
-                <div className="flex space-x-4">
-                    <Link href="/projects" className="btn btn-primary">View Projects</Link>
-                    <Link href="/contact" className="btn btn-secondary">Contact Me</Link>
+        <section className="relative py-24 px-6 md:px-10 overflow-hidden">
+            {/* Background Pattern */}
+            <DotPattern
+                className="absolute inset-0 z-0 opacity-20 [mask-image:radial-gradient(ellipse_at_top,white,transparent)]"
+                offset={24}
+                radius={0.5}
+            />
+
+            <div className="max-w-7xl mx-auto">
+                <div className="text-center flex flex-col items-center justify-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7 }}
+                        className="mb-6"
+                    >
+                        <span className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium">
+                            Full Stack Developer
+                        </span>
+                    </motion.div>
+
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, delay: 0.1 }}
+                        className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
+                    >
+                        <span className="block mb-2">Backend Whisperer &</span>
+                        <span className="gradient-text">
+                            <TypingAnimation duration={80} delay={800}>
+                                Code Enthusiast
+                            </TypingAnimation>
+                        </span>
+                    </motion.h1>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, delay: 0.2 }}
+                        className="text-lg md:text-xl text-muted-foreground max-w-3xl mb-10"
+                    >
+                        Hi, I&apos;m Sanithu Jayakody. I build robust, efficient, and scalable web applications
+                        with a focus on optimizing backend systems. I love turning complex challenges into
+                        elegant solutions.
+                    </motion.p>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, delay: 0.3 }}
+                        className="flex flex-col sm:flex-row gap-4 justify-center"
+                    >
+                        <Link href="/projects" className="btn btn-primary px-6 py-3">
+                            View My Projects
+                        </Link>
+                        <Link href="/contact" className="btn btn-secondary px-6 py-3">
+                            Get In Touch
+                        </Link>
+                    </motion.div>
+
+                    {/* Tech stack badges */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                        className="mt-16 flex flex-wrap justify-center gap-3"
+                    >
+                        {['TypeScript', 'React', 'Node.js', 'Next.js', 'MongoDB', 'PostgreSQL'].map((tech, i) => (
+                            <motion.span
+                                key={tech}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3, delay: 0.5 + (i * 0.1) }}
+                                className="px-4 py-2 bg-card text-sm rounded-full border border-border"
+                            >
+                                {tech}
+                            </motion.span>
+                        ))}
+                    </motion.div>
                 </div>
             </div>
-            <div className="md:w-2/5 mt-10 md:mt-0 animate-slide-up">
-                <div className="relative w-full aspect-square max-w-md mx-auto">
-                    {/* This would be your profile image */}
-                    <div className="w-full h-full rounded-lg bg-linear-to-br from-(--primary) to-(--accent) opacity-80"></div>
-                    <div className="absolute inset-2 bg-(--card) rounded-lg flex items-center justify-center">
-                        <span className="text-6xl">👨‍💻</span>
-                        {/* Uncomment when you have an actual image */}
-                        {/* <Image 
-              src="/images/profile.jpg" 
-              alt="Sanithu Jayakody" 
-              fill 
-              className="object-cover rounded-lg"
-            /> */}
-                    </div>
-                </div>
-            </div>
+
+            {/* Scroll indicator */}
+            <motion.div
+                className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                    duration: 0.5,
+                    delay: 1.2,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    repeatDelay: 0.2
+                }}
+            >
+                <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-primary"
+                >
+                    <path d="M12 5v14M19 12l-7 7-7-7" />
+                </svg>
+            </motion.div>
         </section>
     );
 }
