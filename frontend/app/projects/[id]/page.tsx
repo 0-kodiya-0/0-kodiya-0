@@ -16,7 +16,7 @@ export default function ProjectDetail() {
     useEffect(() => {
         const fetchProject = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects/${projectId}`);
+                const res = await fetch(`/api/projects/${projectId}`);
 
                 if (!res.ok) {
                     throw new Error('Project not found');

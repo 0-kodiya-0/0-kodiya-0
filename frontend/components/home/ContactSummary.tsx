@@ -1,14 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { DotPattern } from '../magicui/dot-pattern';
-import { BoxReveal } from '../magicui/box-reveal';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { ContactItem } from '../contact/contact.types';
+import ContactCardContent from '../contact/ContactCardContent';
 
 export default function ContactSummary() {
-  const contactInfo = [
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+
+  const contactInfo: ContactItem[] = [
     {
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
           <polyline points="22,6 12,13 2,6"></polyline>
         </svg>
@@ -19,7 +23,7 @@ export default function ContactSummary() {
     },
     {
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
         </svg>
       ),
@@ -29,7 +33,7 @@ export default function ContactSummary() {
     },
     {
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
           <rect x="2" y="9" width="4" height="12"></rect>
           <circle cx="4" cy="4" r="2"></circle>
@@ -38,100 +42,135 @@ export default function ContactSummary() {
       title: 'LinkedIn',
       value: 'linkedin.com/in/sanithu',
       link: 'https://linkedin.com/in/sanithu'
+    },
+    {
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+      ),
+      title: 'Location',
+      value: 'Colombo, Sri Lanka',
+      link: null
     }
   ];
 
+  const variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   return (
     <section id="contact" className="py-24 px-6 relative">
-      {/* Background Pattern */}
-      <DotPattern
-        className="absolute inset-0 z-0 opacity-20 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]"
-      />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-card-hover/30 dark:to-background/30 z-0"></div>
 
-      <div className="max-w-5xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Left side - Contact heading and info */}
-          <div>
-            <BoxReveal boxColor={"var(--primary)"} duration={0.4}>
-              <h2 className="text-3xl font-bold">Let&apos;s Connect</h2>
-            </BoxReveal>
+      <div className="max-w-5xl mx-auto relative">
+        <div className="mb-16 text-center">
+          <motion.h2
+            className="text-3xl font-bold mb-3"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={variants}
+            transition={{ duration: 0.5 }}
+          >
+            Let&apos;s <span className="gradient-text">Connect</span>
+          </motion.h2>
 
-            <BoxReveal boxColor={"var(--primary)"} duration={0.4}>
-              <p className="mt-4 text-muted-foreground">
-                I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out through any of these channels.
-              </p>
-            </BoxReveal>
+          <motion.p
+            className="text-muted-foreground max-w-lg mx-auto"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={variants}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            Open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+          </motion.p>
+        </div>
 
-            <div className="mt-8 space-y-6">
-              {contactInfo.map((item) => (
-                <BoxReveal
-                  key={item.title}
-                  boxColor={"var(--primary)"}
-                  duration={0.4}
-                >
-                  <a
-                    href={item.link}
-                    className="flex items-start hover:bg-muted/50 p-3 rounded-md transition-colors"
-                    target={item.title !== 'Email' ? '_blank' : undefined}
-                    rel="noopener noreferrer"
-                  >
-                    <div className="text-primary mr-4">
-                      {item.icon}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Contact cards */}
+          <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {contactInfo.map((item, index) => (
+              <motion.div
+                key={item.title}
+                className="relative"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={variants}
+                transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
+                onHoverStart={() => setHoverIndex(index)}
+                onHoverEnd={() => setHoverIndex(null)}
+              >
+                <div className={`h-full border border-border ${hoverIndex === index ? 'bg-card' : 'bg-transparent'} rounded-lg p-5 transition-all duration-300`}>
+                  {item.link ? (
+                    <a
+                      href={item.link}
+                      className="flex flex-col h-full"
+                      target={item.title !== 'Email' ? '_blank' : undefined}
+                      rel="noopener noreferrer"
+                    >
+                      <ContactCardContent item={item} />
+                    </a>
+                  ) : (
+                    <div className="flex flex-col h-full">
+                      <ContactCardContent item={item} />
                     </div>
-                    <div>
-                      <h3 className="font-medium">{item.title}</h3>
-                      <p className="text-sm text-muted-foreground">{item.value}</p>
-                    </div>
-                  </a>
-                </BoxReveal>
-              ))}
-            </div>
+                  )}
+                </div>
+
+                {hoverIndex === index && (
+                  <motion.div
+                    className="absolute -inset-px rounded-lg border-2 border-primary opacity-20"
+                    layoutId="highlight"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+              </motion.div>
+            ))}
           </div>
 
-          {/* Right side - Location and CTA */}
-          <div className="bg-card border border-border p-8 rounded-lg shadow-sm">
-            <BoxReveal boxColor={"var(--primary)"} duration={0.4} >
-              <div className="flex items-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary mr-3">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                <div>
-                  <h3 className="font-medium">Location</h3>
-                  <p className="text-muted-foreground">Colombo, Sri Lanka</p>
-                </div>
-              </div>
-            </BoxReveal>
+          {/* CTA */}
+          <motion.div
+            className="bg-card border border-border rounded-lg p-6 flex flex-col justify-between"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={variants}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <div>
+              <h3 className="font-medium mb-2">Ready to work together?</h3>
+              <p className="text-sm text-muted-foreground mb-6">
+                Have a project in mind or want to explore possibilities? I&apos;d love to hear from you.
+              </p>
 
-            <BoxReveal boxColor={"var(--primary)"} duration={0.4} >
-              <div className="mb-8">
-                <h3 className="font-medium mb-2">Current Status</h3>
-                <div className="flex items-center">
-                  <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
-                  <p>Available for freelance projects</p>
-                </div>
+              <div className="flex items-center mb-4">
+                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                <p className="text-sm">Available for new projects</p>
               </div>
-            </BoxReveal>
+            </div>
 
-            <BoxReveal boxColor={"var(--primary)"} duration={0.4} >
+            <div className="space-y-3">
               <Link
                 href="/contact"
                 className="btn btn-primary w-full justify-center text-center"
               >
                 Send a Message
               </Link>
-            </BoxReveal>
 
-            <BoxReveal boxColor={"var(--primary)"} duration={0.4} >
               <a
                 href="/downloads/SanithuJayakody-Resume.pdf"
                 download
-                className="btn btn-secondary w-full justify-center text-center mt-4"
+                className="btn btn-secondary w-full justify-center text-center"
               >
                 Download Resume
               </a>
-            </BoxReveal>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

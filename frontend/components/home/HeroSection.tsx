@@ -23,8 +23,9 @@ export default function HeroSection() {
                         transition={{ duration: 0.7 }}
                         className="mb-6"
                     >
-                        <span className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium">
-                            Full Stack Developer
+                        {/* Fixed the visibility by increasing opacity and using stronger contrast colors */}
+                        <span className="inline-block px-4 py-2 bg-accent/30 text-accent-foreground rounded-full text-sm font-medium">
+                            Full Stack Developer 
                         </span>
                     </motion.div>
 
@@ -35,8 +36,12 @@ export default function HeroSection() {
                         className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
                     >
                         <span className="block mb-2">Backend Whisperer &</span>
-                        <span className="gradient-text">
-                            <TypingAnimation duration={80} delay={800}>
+
+                        {/* Fixed text visibility by using a direct color instead of gradient-text */}
+                        <span className="text-primary font-bold">
+                            <TypingAnimation startOnView
+                                className="text-primary"
+                            >
                                 Code Enthusiast
                             </TypingAnimation>
                         </span>

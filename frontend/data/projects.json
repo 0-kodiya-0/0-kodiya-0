@@ -1,0 +1,187 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "Real-time Ticketing System",
+      "description": "A comprehensive ticketing system with real-time updates built with Spring Boot and Angular.",
+      "longDescription": "This real-time ticketing system provides a modern solution for managing customer support tickets and service requests.\n\nThe application is built with Spring Boot serving as the backend API and Angular providing a responsive frontend interface. The system features real-time updates to ensure all stakeholders have the latest information.\n\nKey features include:\n- Real-time ticket status updates\n- User authentication and role-based access control\n- Ticket assignment and priority management\n- Notification system for updates and new tickets\n- Detailed reporting and analytics\n- RESTful API architecture\n- Responsive design for all devices",
+      "technologies": [
+        "Angular",
+        "Spring Boot",
+        "Java",
+        "TypeScript",
+        "RESTful API"
+      ],
+      "image": "🎫",
+      "projectUrl": "https://tickets.sanithu.dev",
+      "githubUrl": "https://github.com/0-kodiya-0/ticketing-system",
+      "challenges": [
+        "Implementing real-time data synchronization between clients",
+        "Designing a scalable database schema for ticket management",
+        "Creating an intuitive user interface for ticket tracking",
+        "Ensuring secure authentication and authorization"
+      ],
+      "solutions": [
+        "Used WebSockets for real-time communication between server and clients",
+        "Developed a normalized database schema with proper indexes",
+        "Created a responsive UI with Angular Material components",
+        "Implemented JWT authentication with role-based access control"
+      ],
+      "featured": true,
+      "createdAt": "2024-01-01T12:00:00.000Z",
+      "updatedAt": "2024-01-15T15:30:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "Fitness Smart",
+      "description": "A UI/UX design project for fitness enthusiasts with workout tracking and nutrition planning.",
+      "longDescription": "Fitness Smart was developed as a group project during my foundation's second semester at IIT.\n\nThe project focused on creating an intuitive and engaging UI/UX design for a fitness application that helps users track their workouts, plan their nutrition, and achieve their fitness goals.\n\nKey features include:\n- Workout tracking and planning\n- Nutrition management and meal planning\n- Progress visualization with charts and graphs\n- Community features for sharing achievements\n- Personalized fitness recommendations\n- Clean, modern interface design\n- User-centric information architecture",
+      "technologies": [
+        "Figma",
+        "UI/UX Design",
+        "Prototyping",
+        "User Research"
+      ],
+      "image": "💪",
+      "projectUrl": "https://www.figma.com/file/fitness-smart-prototype",
+      "githubUrl": "https://github.com/0-kodiya-0/fitness-smart",
+      "challenges": [
+        "Creating an intuitive navigation system for complex fitness data",
+        "Designing for multiple user personas with different fitness goals",
+        "Ensuring accessibility while maintaining visual appeal",
+        "Balancing feature richness with simplicity"
+      ],
+      "solutions": [
+        "Implemented a tab-based navigation with clear information hierarchy",
+        "Conducted user research to develop responsive personas and user journeys",
+        "Applied accessibility guidelines throughout the design process",
+        "Used progressive disclosure to manage complex features"
+      ],
+      "featured": true,
+      "createdAt": "2023-06-01T10:00:00.000Z",
+      "updatedAt": "2023-07-30T14:15:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "Account System",
+      "description": "A secure login and signup system built with JavaScript and Node.js with authentication features.",
+      "longDescription": "This account system provides a foundation for user authentication and management in web applications.\n\nBuilt with JavaScript and Node.js, the system implements secure authentication practices with password hashing, JWT token management, and protection against common security vulnerabilities.\n\nKey features include:\n- User registration with email verification\n- Secure login with password hashing\n- JWT authentication\n- Password reset functionality\n- User profile management\n- Role-based access control\n- Protection against common attacks (CSRF, XSS, injection)",
+      "technologies": [
+        "JavaScript",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "JWT"
+      ],
+      "image": "🔐",
+      "projectUrl": "",
+      "githubUrl": "https://github.com/0-kodiya-0/account-system",
+      "challenges": [
+        "Implementing secure password storage and authentication",
+        "Creating a robust token-based authentication system",
+        "Handling edge cases like account recovery and email verification",
+        "Preventing common security vulnerabilities"
+      ],
+      "solutions": [
+        "Used bcrypt for password hashing and verification",
+        "Implemented JWT with proper expiration and refresh token rotation",
+        "Developed email verification and password reset workflows",
+        "Applied security best practices and input validation"
+      ],
+      "featured": false,
+      "createdAt": "2023-05-10T09:30:00.000Z",
+      "updatedAt": "2023-05-25T11:45:00.000Z"
+    },
+    {
+      "id": 4,
+      "title": "Express Server Framework",
+      "description": "A streamlined Express server framework for rapid API development with JavaScript.",
+      "longDescription": "This Express server framework provides a structured foundation for developing web applications and APIs using Node.js and JavaScript.\n\nThe framework includes pre-configured middleware, route organization, error handling, and database connectivity to accelerate the development process while maintaining best practices.\n\nKey features include:\n- Organized project structure for scalability\n- Pre-configured middleware for common tasks\n- Standardized error handling and response formatting\n- Database connection management\n- Environment configuration\n- Logging system\n- Request validation",
+      "technologies": [
+        "JavaScript",
+        "Node.js",
+        "Express",
+        "RESTful API"
+      ],
+      "image": "🚀",
+      "projectUrl": "",
+      "githubUrl": "https://github.com/0-kodiya-0/express-framework",
+      "challenges": [
+        "Creating a flexible yet structured framework for diverse applications",
+        "Designing a clean architecture that follows best practices",
+        "Balancing simplicity with feature completeness",
+        "Implementing effective error handling across the application"
+      ],
+      "solutions": [
+        "Adopted a modular structure with clear separation of concerns",
+        "Implemented middleware patterns for cross-cutting concerns",
+        "Created a minimal core with optional extensions",
+        "Developed a centralized error handling system with detailed logging"
+      ],
+      "featured": false,
+      "createdAt": "2023-03-15T14:00:00.000Z",
+      "updatedAt": "2023-04-10T16:20:00.000Z"
+    },
+    {
+      "id": 5,
+      "title": "Product Landing Page",
+      "description": "A responsive product landing page designed for a first-year group project.",
+      "longDescription": "This product landing page was created as part of a first-year second-semester group project at IIT.\n\nThe page showcases a fictional product with a focus on responsive design, engaging visual elements, and clear call-to-action components. The project demonstrates fundamental web development skills with HTML, CSS, and JavaScript.\n\nKey features include:\n- Responsive design that works on all devices\n- Engaging hero section with product highlights\n- Feature showcase with visual elements\n- Pricing section with comparison table\n- Customer testimonials\n- Contact form with validation\n- Smooth scrolling and subtle animations",
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Responsive Design"
+      ],
+      "image": "🌐",
+      "projectUrl": "https://web-design-landing.sanithu.dev",
+      "githubUrl": "https://github.com/0-kodiya-0/web-design",
+      "challenges": [
+        "Ensuring responsive design across different screen sizes",
+        "Creating an attractive and professional visual design",
+        "Implementing interactive elements with JavaScript",
+        "Optimizing page load performance"
+      ],
+      "solutions": [
+        "Used CSS flexbox and grid for responsive layouts",
+        "Applied consistent color scheme and typography for professional appearance",
+        "Implemented interactive components with vanilla JavaScript",
+        "Optimized images and implemented lazy loading for better performance"
+      ],
+      "featured": false,
+      "createdAt": "2023-01-20T09:00:00.000Z",
+      "updatedAt": "2023-02-15T10:30:00.000Z"
+    },
+    {
+      "id": 6,
+      "title": "SDGP Group Project",
+      "description": "A second-year group project focused on developing a sustainable solution.",
+      "longDescription": "The Software Development Group Project (SDGP) is a comprehensive second-year initiative at IIT that involves developing a software solution for real-world problems.\n\nThis ongoing project applies software engineering principles, team collaboration, and project management practices to create a valuable application that addresses sustainability challenges.\n\nWhile still in development, the project includes:\n- Comprehensive requirements gathering and analysis\n- System architecture design\n- Frontend and backend development\n- Database design and implementation\n- Testing and quality assurance\n- Documentation and presentation",
+      "technologies": [
+        "Next.js",
+        "TypeScript",
+        "MongoDB",
+        "Agile Methodology",
+        "Git"
+      ],
+      "image": "🌱",
+      "projectUrl": "",
+      "githubUrl": "https://github.com/0-kodiya-0/sdgp-project",
+      "challenges": [
+        "Coordinating development efforts within a team environment",
+        "Managing scope and requirements for a complex project",
+        "Implementing sustainable development practices",
+        "Balancing academic requirements with practical implementation"
+      ],
+      "solutions": [
+        "Adopted Agile methodology with regular sprint planning and reviews",
+        "Created a detailed project roadmap with prioritized features",
+        "Implemented continuous integration practices with Git",
+        "Established clear communication channels and documentation standards"
+      ],
+      "featured": true,
+      "createdAt": "2024-01-05T11:00:00.000Z",
+      "updatedAt": "2024-02-28T09:15:00.000Z"
+    }
+  ]
+}

@@ -34,7 +34,7 @@ export default function ProjectsSummary() {
   useEffect(() => {
     const fetchFeaturedProjects = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects/featured`);
+        const res = await fetch('/api/projects/featured');
 
         if (!res.ok) {
           throw new Error('Failed to fetch featured projects');
@@ -84,7 +84,7 @@ export default function ProjectsSummary() {
   };
 
   return (
-    <section id="projects" className="relative py-20 px-6 bg-(--card-hover) border-y border-gray-200 dark:border-gray-800 overflow-hidden">
+    <section id="projects" className="relative py-20 px-6 bg-card-hover border-y border-border overflow-hidden">
       {/* Background Dot Pattern */}
       <DotPattern
         className="[mask-image:radial-gradient(500px_circle_at_left_center,white,transparent)]"
@@ -100,14 +100,7 @@ export default function ProjectsSummary() {
           viewport={{ once: true, margin: "-100px" }}
           variants={headerVariants}
         >
-          <h2 className="text-3xl font-bold">
-            <span className="text-(--syntax-keyword)">const</span>
-            <span className="ml-2">projects</span>
-            <span className="text-(--syntax-operator) mx-2">=</span>
-            <span className="text-(--syntax-function)">myWork</span>
-            <span className="text-(--syntax-operator)">()</span>
-            <span>;</span>
-          </h2>
+          <h2 className="text-3xl font-bold gradient-text inline-block">projects.featured()</h2>
           <Link href="/projects" className="btn btn-secondary text-sm">View All Projects</Link>
         </motion.div>
 
@@ -117,9 +110,9 @@ export default function ProjectsSummary() {
             {technologies.map((tech) => (
               <div
                 key={tech.name}
-                className="mx-4 flex items-center bg-(--card) py-2 px-4 rounded-full border border-gray-200 dark:border-gray-800"
+                className="mx-4 flex items-center bg-card py-2 px-4 rounded-full border border-border hover:border-primary hover:shadow-sm transition-all duration-300"
               >
-                <span className="mr-2 text-lg">{tech.icon}</span>
+                <span className="mr-2 text-xl">{tech.icon}</span>
                 <span className="font-medium">{tech.name}</span>
               </div>
             ))}
@@ -128,11 +121,14 @@ export default function ProjectsSummary() {
 
         {loading ? (
           <div className="flex justify-center items-center h-64">
-            <div className="animate-pulse text-xl">Loading featured projects...</div>
+            <div className="flex flex-col items-center">
+              <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+              <p className="text-muted-foreground">Loading featured projects...</p>
+            </div>
           </div>
         ) : error ? (
-          <div className="text-center p-6 bg-(--card) rounded-lg">
-            <p className="text-red-500">{error}</p>
+          <div className="text-center p-6 bg-card rounded-lg">
+            <p className="text-destructive">{error}</p>
           </div>
         ) : (
           <motion.div

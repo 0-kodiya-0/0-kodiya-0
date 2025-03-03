@@ -1,16 +1,19 @@
+import { JetBrains_Mono, Inter } from "next/font/google";
+import type { Metadata } from "next";
+import "./globals.css";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
-
-import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
-import "./globals.css";
-import PageTransition from "@/components/layout/PageTransition";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 
-// Load JetBrains Mono with subsets to reduce bundle size
 const jetBrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-jetbrains-mono',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
   display: 'swap',
 });
 
@@ -18,7 +21,7 @@ export const metadata: Metadata = {
   title: "Sanithu Jayakody | Portfolio",
   description: "Backend Whisperer & Code Enthusiast. Hi, I'm Sanithu, a Full Stack Developer passionate about optimizing and scaling backend systems. Still learning, still growing!",
 
-  authors: [{ name: "Sanithu Jayakody", url: "https://sanithu-jayakody.com" }],
+  authors: [{ name: "Sanithu Jayakody", url: "https://sanithu-jayakody.me" }],
   creator: "Sanithu Jayakody",
   publisher: "Sanithu Jayakody",
 
@@ -26,57 +29,12 @@ export const metadata: Metadata = {
 
   robots: {
     index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-    },
-  },
-
-  openGraph: {
-    type: "profile",
-    title: "Sanithu Jayakody | Developer Portfolio",
-    description: "Backend Whisperer & Code Enthusiast. Full Stack Developer passionate about optimizing and scaling backend systems. Still learning, still growing!",
-    siteName: "Sanithu Jayakody Portfolio",
-    images: [
-      {
-        url: "/images/profile-og.jpg", // Replace with your actual OG image path
-        width: 1200,
-        height: 630,
-        alt: "Sanithu Jayakody Portfolio Preview",
-      }
-    ],
-    locale: "en_US",
-  },
-
-  twitter: {
-    card: "summary_large_image",
-    title: "Sanithu Jayakody | Portfolio",
-    description: "Backend Whisperer & Code Enthusiast. Full Stack Developer focused on backend optimization and scaling.",
-    images: ["/images/profile-twitter.jpg"], // Replace with your actual Twitter card image
-    creator: "@sanithu", // Replace with your actual Twitter handle if you have one
-  },
-
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
+    follow: true
   },
 
   icons: {
     icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
-    shortcut: "/shortcut-icon.png",
-  },
-
-  // Optional verification for search engines
-  verification: {
-    google: "google-site-verification-code", // Replace with actual verification code if needed
-  },
-
-  // Optional canonical URL
-  alternates: {
-    canonical: "https://sanithu-jayakody.com", // Replace with your actual domain
+    apple: "/apple-icon.png"
   },
 };
 
@@ -86,14 +44,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${jetBrainsMono.variable} font-sans antialiased`}>
+    <html lang="en" className={`${jetBrainsMono.variable} ${inter.variable}`}>
+      <body className="antialiased">
         <ThemeProvider>
           <main className="min-h-screen flex flex-col">
             <Navbar />
-            <PageTransition>
-              {children}
-            </PageTransition>
+            {children}
             <Footer />
           </main>
         </ThemeProvider>

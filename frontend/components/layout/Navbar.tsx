@@ -13,7 +13,7 @@ export default function Navbar() {
     const dropdownRef = useRef<HTMLDivElement>(null);
     const { theme, toggleTheme } = useTheme();
 
-    const navItems = ['About', 'Projects', 'Skills', 'Contact'];
+    const navItems = ['About', 'Projects', 'Contact'];
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -30,7 +30,8 @@ export default function Navbar() {
     }, []);
 
     return (
-        <nav className="sticky top-0 z-10 border-b border-gray-200 bg-background/80 py-4 px-6 backdrop-blur-xs dark:border-gray-800">
+        <nav className={`sticky top-0 z-50 border-b py-4 px-6 backdrop-blur-sm ${theme === 'dark' ? 'border-gray-800 bg-background/90' : 'border-gray-200 bg-white/90'
+            }`}>
             <div className="relative max-w-7xl mx-auto flex justify-between items-center">
                 {/* Background Dot Pattern */}
                 <DotPattern
@@ -41,15 +42,15 @@ export default function Navbar() {
 
                 {/* Logo */}
                 <motion.div
-                    className="font-mono font-bold text-xl"
+                    className="font-mono font-bold text-xl flex items-center"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
                 >
-                    <Link href="/">
-                        <span className="text-(--primary)">sanithu</span>
-                        <span className="text-(--foreground)">@portfolio</span>
-                        <span className="text-(--primary)">:~$</span>
+                    <Link href="/" className="flex items-center">
+                        <span className="text-primary">sanithu</span>
+                        <span className="text-foreground">@portfolio</span>
+                        <span className="text-primary">:~$</span>
                     </Link>
                 </motion.div>
 
@@ -116,19 +117,19 @@ export default function Navbar() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: -5 }}
                                     transition={{ duration: 0.2 }}
-                                    className="absolute right-0 mt-2 w-48 bg-(--card) shadow-lg rounded-md border border-gray-200 dark:border-gray-800 overflow-hidden"
+                                    className="absolute right-0 mt-2 w-48 bg-card shadow-lg rounded-md border border-gray-200 dark:border-gray-800 overflow-hidden"
                                 >
                                     <a
                                         href="/downloads/SanithuJayakody-CV.pdf"
                                         download
-                                        className="block px-4 py-2 hover:bg-(--card-hover) transition-colors"
+                                        className="block px-4 py-2 hover:bg-card-hover transition-colors"
                                     >
                                         Download CV
                                     </a>
                                     <a
                                         href="/downloads/SanithuJayakody-Resume.pdf"
                                         download
-                                        className="block px-4 py-2 hover:bg-(--card-hover) transition-colors"
+                                        className="block px-4 py-2 hover:bg-card-hover transition-colors"
                                     >
                                         Download Resume
                                     </a>
@@ -143,7 +144,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: 0.6 }}
                         onClick={toggleTheme}
-                        className="p-2 rounded-full hover:bg-(--card-hover) transition-colors"
+                        className="p-2 rounded-full hover:bg-card-hover transition-colors"
                         aria-label="Toggle theme"
                     >
                         {theme === 'light' ? (
@@ -191,7 +192,7 @@ export default function Navbar() {
                     {/* Theme Toggle Button (Mobile) */}
                     <button
                         onClick={toggleTheme}
-                        className="p-2 rounded-full hover:bg-(--card-hover) transition-colors"
+                        className="p-2 rounded-full hover:bg-card-hover transition-colors"
                         aria-label="Toggle theme"
                     >
                         {theme === 'light' ? (
@@ -282,7 +283,8 @@ export default function Navbar() {
             <AnimatePresence>
                 {isMenuOpen && (
                     <motion.div
-                        className="md:hidden absolute top-[72px] left-0 right-0 bg-background border-b border-gray-200 py-4 z-20 dark:border-gray-800"
+                        className={`md:hidden absolute top-[72px] left-0 right-0 py-4 z-20 ${theme === 'dark' ? 'bg-background border-b border-gray-800' : 'bg-white border-b border-gray-200'
+                            }`}
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
@@ -302,7 +304,7 @@ export default function Navbar() {
 
                             {/* Resume Download Options (Mobile) */}
                             <div className="py-2 border-t border-gray-200 dark:border-gray-800">
-                                <div className="text-sm font-medium mb-2 text-(--syntax-comment)">Download</div>
+                                <div className="text-sm font-medium mb-2 text-muted-foreground">Download</div>
                                 <div className="flex flex-col gap-2">
                                     <a
                                         href="/downloads/SanithuJayakody-CV.pdf"
@@ -320,7 +322,7 @@ export default function Navbar() {
                                             strokeWidth="2"
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
-                                            className="text-(--primary)"
+                                            className="text-primary"
                                         >
                                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                             <polyline points="7 10 12 15 17 10"></polyline>
@@ -344,7 +346,7 @@ export default function Navbar() {
                                             strokeWidth="2"
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
-                                            className="text-(--primary)"
+                                            className="text-primary"
                                         >
                                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                             <polyline points="7 10 12 15 17 10"></polyline>

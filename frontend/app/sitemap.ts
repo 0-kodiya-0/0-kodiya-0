@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
     // Base URL - replace with your actual domain when you have one
-    const baseUrl = process.env.SITE_URL || 'https://sanithu-jayakody.com'
+    const baseUrl = process.env.SITE_URL || 'https://sanithu-jayakody.me'
 
     // Current date for lastModified
     const currentDate = new Date()

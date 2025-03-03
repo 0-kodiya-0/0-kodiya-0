@@ -1,3 +1,5 @@
+"use client"
+
 import Link from 'next/link';
 import { DotPattern } from '../magicui/dot-pattern';
 
@@ -10,10 +12,10 @@ export default function Footer() {
     ];
 
     const socialLinks = [
-        { name: 'GitHub', url: 'https://github.com/sanithu', handle: '@sanithu' },
-        { name: 'LinkedIn', url: 'https://linkedin.com/in/sanithu', handle: '@sanithu' },
-        { name: 'Twitter', url: 'https://twitter.com/sanithu', handle: '@sanithu' },
-        { name: 'Email', url: 'mailto:hello@sanithu.dev', handle: 'hello@sanithu.dev' }
+        { name: 'GitHub', url: 'https://github.com/0-kodiya-0', handle: '@0-kodiya-0' },
+        { name: 'LinkedIn', url: 'https://www.linkedin.com/in/sanithu-jayakody-a541142ab/', handle: 'sanithu-jayakody' },
+        { name: 'Stack Overflow', url: 'https://stackoverflow.com/users/20159737/sanithu-jayakody', handle: 'sanithu-jayakody' },
+        { name: 'Email', url: 'mailto:sanithujayafiverr@gmail.com', handle: 'sanithujayafiverr@gmail.com' }
     ];
 
     return (

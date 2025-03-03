@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/private/', '/admin/'],
     },
-    sitemap: 'https://sanithu-jayakody.com/sitemap.xml',
+    sitemap: 'https://sanithu-jayakody.me/sitemap.xml',
   }
 }
