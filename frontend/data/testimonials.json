@@ -9,7 +9,18 @@
       "id": 1,
       "featured": false,
       "createdAt": "2025-03-04T07:52:34.143Z",
-      "updatedAt": "2025-03-04T07:52:34.144Z"
+      "updatedAt": "2025-03-04T08:22:55.168Z"
+    },
+    {
+      "name": "Alex",
+      "role": "Devops",
+      "company": "",
+      "content": "Sanithu is an incredible professional! Their dedication, expertise, and attention to detail make them stand out. Working with Sanithu has been a fantastic experience, and I highly recommend them to anyone looking for top-quality results",
+      "image": "https://avatar.vercel.sh/alex",
+      "id": 2,
+      "featured": false,
+      "createdAt": "2025-03-04T08:21:11.585Z",
+      "updatedAt": "2025-03-04T08:21:11.585Z"
     }
   ]
 }

@@ -27,40 +27,6 @@ export default function AboutPage() {
     }
   ];
 
-  // Projects data based on CV
-  const projects = [
-    {
-      year: '2024',
-      title: 'Real time ticketing system',
-      description: 'A real time ticketing system built with Spring boot as the backend and Angular.js as the front end'
-    },
-    {
-      year: '2024 - 2025',
-      title: 'SDGP Group Project',
-      description: 'Second year group project (ongoing)'
-    },
-    {
-      year: '2023',
-      title: 'Finess Smart',
-      description: 'A UI/UX design for foundation second semester group project'
-    },
-    {
-      year: '2023',
-      title: 'Web design',
-      description: 'A simple product landing page for 1st year second semester group project'
-    },
-    {
-      year: '2023',
-      title: 'Express server framework',
-      description: 'A simple express server framework design with JavaScript'
-    },
-    {
-      year: '2023',
-      title: 'Account system',
-      description: 'A simple login and signup system design with JavaScript and Node.js'
-    }
-  ];
-
   // Skills data grouped by category based on CV
   const skills = {
     frameworks: ['Express', 'Next.js', 'Angular.js', 'Spring Boot'],
@@ -301,34 +267,6 @@ export default function AboutPage() {
                   </motion.li>
                 ))}
               </ul>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section>
-
-      {/* Projects Section */}
-      <motion.section
-        className="mb-20 relative z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.7 }}
-      >
-        <h2 className="text-2xl font-bold mb-8 gradient-text">Projects</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              className="border border-border rounded-lg p-5 bg-card hover:shadow-md transition-all"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) }}
-              whileHover={{ y: -5 }}
-            >
-              <span className="text-xs text-muted-foreground block mb-2">{project.year}</span>
-              <h3 className="text-lg font-bold mb-2">{project.title}</h3>
-              <p className="text-sm text-muted-foreground">{project.description}</p>
             </motion.div>
           ))}
         </div>
