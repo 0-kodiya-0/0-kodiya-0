@@ -55,18 +55,6 @@ export default function AdminTestimonialsPage() {
         checkAuth();
     }, [router]);
 
-    const handleLogout = async () => {
-        try {
-            await fetch('/api/auth/logout', {
-                method: 'POST',
-                credentials: 'include',
-            });
-            router.push('/admin');
-        } catch (err) {
-            console.error('Logout failed', err);
-        }
-    };
-
     const handleDeleteTestimonial = async (id: number) => {
         if (!window.confirm('Are you sure you want to delete this testimonial?')) {
             return;
@@ -100,14 +88,6 @@ export default function AdminTestimonialsPage() {
                 <div>
                     <h1 className="text-3xl font-bold">Manage Testimonials</h1>
                     <p className="text-muted-foreground mt-1">Add and edit client testimonials that appear on your homepage</p>
-                </div>
-                <div className="flex gap-4">
-                    <Link href="/admin/dashboard" className="btn btn-secondary">
-                        Dashboard
-                    </Link>
-                    <button onClick={handleLogout} className="btn btn-secondary">
-                        Logout
-                    </button>
                 </div>
             </div>
 

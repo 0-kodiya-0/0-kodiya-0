@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { Project } from '@/components/projects/project.types';
 
 interface DashboardStats {
     totalProjects: number;
@@ -10,17 +11,8 @@ interface DashboardStats {
     totalTestimonials: number;
 }
 
-interface RecentActivity {
-    id: number;
-    action: string;
-    item: string;
-    itemType: 'project' | 'testimonial' | 'setting';
-    timestamp: string;
-}
-
 export default function AdminDashboardPage() {
     const [stats, setStats] = useState<DashboardStats | null>(null);
-    const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -28,52 +20,30 @@ export default function AdminDashboardPage() {
         const fetchDashboardData = async () => {
             try {
                 setLoading(true);
-                // These would be actual API calls in a real implementation
-                // Simulate API responses for now
 
-                // Simulate fetching stats
-                setTimeout(() => {
-                    setStats({
-                        totalProjects: 8,
-                        featuredProjects: 3,
-                        totalTestimonials: 6
-                    });
+                // Fetch projects and testimonials from your API
+                const [projectsRes, testimonialsRes] = await Promise.all([
+                    fetch('/api/projects', { credentials: 'include' }),
+                    fetch('/api/testimonials', { credentials: 'include' })
+                ]);
 
-                    // Simulate recent activity
-                    setRecentActivity([
-                        {
-                            id: 1,
-                            action: 'Added',
-                            item: 'E-commerce Platform',
-                            itemType: 'project',
-                            timestamp: '2 hours ago'
-                        },
-                        {
-                            id: 2,
-                            action: 'Updated',
-                            item: 'Portfolio Website',
-                            itemType: 'project',
-                            timestamp: 'Yesterday'
-                        },
-                        {
-                            id: 3,
-                            action: 'Added',
-                            item: 'Alex Johnson',
-                            itemType: 'testimonial',
-                            timestamp: '2 days ago'
-                        },
-                        {
-                            id: 4,
-                            action: 'Updated',
-                            item: 'Profile Information',
-                            itemType: 'setting',
-                            timestamp: '1 week ago'
-                        }
-                    ]);
+                if (!projectsRes.ok || !testimonialsRes.ok) {
+                    throw new Error('Failed to fetch dashboard data');
+                }
 
-                    setLoading(false);
-                }, 800);
+                const projects = await projectsRes.json();
+                const testimonials = await testimonialsRes.json();
 
+                // Calculate statistics
+                const featuredProjects = projects.filter((project: Project) => project.featured).length;
+
+                setStats({
+                    totalProjects: projects.length,
+                    featuredProjects: featuredProjects,
+                    totalTestimonials: testimonials.length
+                });
+
+                setLoading(false);
             } catch (err) {
                 console.error('Error fetching dashboard data:', err);
                 setError('Failed to load dashboard data');
@@ -190,7 +160,7 @@ export default function AdminDashboardPage() {
                         </div>
                     </div>
                     <div className="mt-4">
-                        <Link href="/admin/projects/featured" className="text-sm text-primary">
+                        <Link href="/admin/projects" className="text-sm text-primary">
                             Manage featured →
                         </Link>
                     </div>
@@ -253,58 +223,6 @@ export default function AdminDashboardPage() {
                         </svg>
                         Download Resume
                     </a>
-                </div>
-            </motion.div>
-
-            {/* Recent Activity */}
-            <motion.div
-                className="bg-card rounded-lg border border-border p-6"
-                variants={fadeIn}
-                initial="hidden"
-                animate="visible"
-                transition={{ delay: 0.3 }}
-            >
-                <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
-                <div className="space-y-4">
-                    {recentActivity.map((activity) => (
-                        <div key={activity.id} className="border-b border-border pb-4 last:border-b-0 last:pb-0">
-                            <div className="flex items-start">
-                                <div className={`p-2 rounded-md mr-4 ${activity.itemType === 'project'
-                                        ? 'bg-blue-100 dark:bg-blue-900/30'
-                                        : activity.itemType === 'testimonial'
-                                            ? 'bg-green-100 dark:bg-green-900/30'
-                                            : 'bg-purple-100 dark:bg-purple-900/30'
-                                    }`}>
-                                    {activity.itemType === 'project' ? (
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                        </svg>
-                                    ) : activity.itemType === 'testimonial' ? (
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                                        </svg>
-                                    ) : (
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                        </svg>
-                                    )}
-                                </div>
-                                <div className="flex-1">
-                                    <div className="flex justify-between">
-                                        <p className="font-medium">
-                                            {activity.action} {activity.item}
-                                        </p>
-                                        <span className="text-sm text-muted-foreground">
-                                            {activity.timestamp}
-                                        </span>
-                                    </div>
-                                    <p className="text-sm text-muted-foreground capitalize mt-1">
-                                        {activity.itemType}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
                 </div>
             </motion.div>
         </div>
