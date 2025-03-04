@@ -130,6 +130,25 @@ export default function ProjectsSummary() {
           <div className="text-center p-6 bg-card rounded-lg">
             <p className="text-destructive">{error}</p>
           </div>
+        ) : featuredProjects.length === 0 ? (
+          <div className="text-center py-16 border border-border rounded-lg bg-card">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-16 w-16 mx-auto mb-4 text-muted-foreground/30"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <h3 className="text-xl font-medium mb-2">No Projects Yet</h3>
+            <p className="text-muted-foreground max-w-md mx-auto mb-6">
+              I&apos;m currently working on adding some amazing projects to my portfolio. Check back soon to see what I&apos;ve been building!
+            </p>
+            <Link href="/contact" className="btn btn-primary">
+              Let&apos;s Create Something Together
+            </Link>
+          </div>
         ) : (
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
