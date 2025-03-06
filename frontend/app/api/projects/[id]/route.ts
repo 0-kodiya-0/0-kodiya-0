@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { projectsDb } from '@/lib/db';
+import { projectsService } from '@/lib/services/jsonbin';
+import { CACHE_TAGS, DEFAULT_CACHE_TIME, revalidateProjects } from '@/lib/jsonbinCache';
 
 export async function GET(
   request: NextRequest,
@@ -14,16 +15,12 @@ export async function GET(
       );
     }
 
-    await projectsDb.read();
-    
-    if (!projectsDb.data) {
-      return NextResponse.json(
-        { message: 'Database not initialized' },
-        { status: 500 }
-      );
-    }
+    const data = await projectsService.getAll({
+      revalidate: DEFAULT_CACHE_TIME,
+      tags: [CACHE_TAGS.PROJECTS]
+    });
 
-    const project = projectsDb.data.projects.find(p => p.id === id);
+    const project = data.projects.find(p => p.id === id);
 
     if (!project) {
       return NextResponse.json(
@@ -55,26 +52,19 @@ export async function PUT(
       );
     }
 
-    const data = await request.json();
+    const projectData = await request.json();
 
     // Validate input
-    if (!data.title || !data.description || !data.technologies) {
+    if (!projectData.title || !projectData.description || !projectData.technologies) {
       return NextResponse.json(
         { message: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    await projectsDb.read();
-
-    if (!projectsDb.data) {
-      return NextResponse.json(
-        { message: 'Database not initialized' },
-        { status: 500 }
-      );
-    }
-
-    const projectIndex = projectsDb.data.projects.findIndex(p => p.id === id);
+    // Don't use cache for mutations
+    const data = await projectsService.getAll({ revalidate: false });
+    const projectIndex = data.projects.findIndex(p => p.id === id);
 
     if (projectIndex === -1) {
       return NextResponse.json(
@@ -85,14 +75,17 @@ export async function PUT(
 
     // Update project with new values
     const updatedProject = {
-      ...projectsDb.data.projects[projectIndex],
-      ...data,
+      ...data.projects[projectIndex],
+      ...projectData,
       id, // Ensure ID doesn't change
       updatedAt: new Date().toISOString()
     };
 
-    projectsDb.data.projects[projectIndex] = updatedProject;
-    await projectsDb.write();
+    data.projects[projectIndex] = updatedProject;
+    await projectsService.update(data);
+
+    // Revalidate cache after update
+    revalidateProjects();
 
     return NextResponse.json(updatedProject);
   } catch (error) {
@@ -117,18 +110,11 @@ export async function PATCH(
       );
     }
 
-    const data = await request.json();
+    const projectData = await request.json();
 
-    await projectsDb.read();
-
-    if (!projectsDb.data) {
-      return NextResponse.json(
-        { message: 'Database not initialized' },
-        { status: 500 }
-      );
-    }
-
-    const projectIndex = projectsDb.data.projects.findIndex(p => p.id === id);
+    // Don't use cache for mutations
+    const data = await projectsService.getAll({ revalidate: false });
+    const projectIndex = data.projects.findIndex(p => p.id === id);
 
     if (projectIndex === -1) {
       return NextResponse.json(
@@ -139,15 +125,18 @@ export async function PATCH(
 
     // Update only the provided fields
     const updatedProject = {
-      ...projectsDb.data.projects[projectIndex],
-      ...data,
+      ...data.projects[projectIndex],
+      ...projectData,
       id, // Ensure ID doesn't change
-      createdAt: projectsDb.data.projects[projectIndex].createdAt, // Preserve createdAt
+      createdAt: data.projects[projectIndex].createdAt, // Preserve createdAt
       updatedAt: new Date().toISOString()
     };
 
-    projectsDb.data.projects[projectIndex] = updatedProject;
-    await projectsDb.write();
+    data.projects[projectIndex] = updatedProject;
+    await projectsService.update(data);
+
+    // Revalidate cache after update
+    revalidateProjects();
 
     return NextResponse.json(updatedProject);
   } catch (error) {
@@ -172,16 +161,9 @@ export async function DELETE(
       );
     }
 
-    await projectsDb.read();
-
-    if (!projectsDb.data) {
-      return NextResponse.json(
-        { message: 'Database not initialized' },
-        { status: 500 }
-      );
-    }
-
-    const projectIndex = projectsDb.data.projects.findIndex(p => p.id === id);
+    // Don't use cache for mutations
+    const data = await projectsService.getAll({ revalidate: false });
+    const projectIndex = data.projects.findIndex(p => p.id === id);
 
     if (projectIndex === -1) {
       return NextResponse.json(
@@ -191,8 +173,11 @@ export async function DELETE(
     }
 
     // Remove the project
-    projectsDb.data.projects.splice(projectIndex, 1);
-    await projectsDb.write();
+    data.projects.splice(projectIndex, 1);
+    await projectsService.update(data);
+
+    // Revalidate cache after delete
+    revalidateProjects();
 
     return NextResponse.json({ message: 'Project deleted successfully' });
   } catch (error) {

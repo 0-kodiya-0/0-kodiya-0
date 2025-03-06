@@ -1,13 +1,16 @@
-// app/api/testimonials/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { testimonialsDb } from '@/lib/db';
+import { testimonialsService } from '@/lib/services/jsonbin';
+import { CACHE_TAGS, DEFAULT_CACHE_TIME, revalidateTestimonials } from '@/lib/jsonbinCache';
 
 export async function GET() {
   try {
-    await testimonialsDb.read();
+    const data = await testimonialsService.getAll({
+      revalidate: DEFAULT_CACHE_TIME,
+      tags: [CACHE_TAGS.TESTIMONIALS]
+    });
 
     // Return testimonials sorted by newest first
-    const sortedTestimonials = [...(testimonialsDb.data?.testimonials || [])].sort((a, b) =>
+    const sortedTestimonials = [...(data.testimonials || [])].sort((a, b) =>
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
 
@@ -23,40 +26,37 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json();
-    
+    const testimonialData = await request.json();
+
     // Validate input
-    if (!data.name || !data.role || !data.content || !data.image) {
+    if (!testimonialData.name || !testimonialData.role || !testimonialData.content || !testimonialData.image) {
       return NextResponse.json(
         { message: 'Missing required fields' },
         { status: 400 }
       );
     }
-    
-    await testimonialsDb.read();
 
-    if (!testimonialsDb.data) {
-      return NextResponse.json(
-        { message: 'Database not initialized' },
-        { status: 500 }
-      );
-    }
+    // Get current data - don't use cache for mutations
+    const data = await testimonialsService.getAll({ revalidate: false });
 
     // Generate a new ID
-    const nextId = testimonialsDb.data.testimonials.length > 0
-      ? Math.max(...testimonialsDb.data.testimonials.map(t => t.id)) + 1
+    const nextId = data.testimonials.length
+      ? Math.max(...data.testimonials.map(t => t.id)) + 1
       : 1;
 
     const newTestimonial = {
-      ...data,
+      ...testimonialData,
       id: nextId,
-      featured: data.featured || false,
+      featured: testimonialData.featured || false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
 
-    testimonialsDb.data.testimonials.push(newTestimonial);
-    await testimonialsDb.write();
+    data.testimonials.push(newTestimonial);
+    await testimonialsService.update(data);
+
+    // Revalidate the cache
+    revalidateTestimonials();
 
     return NextResponse.json(newTestimonial, { status: 201 });
   } catch (error) {

@@ -7,7 +7,7 @@ import { TypingAnimation } from '../magicui/typing-animation';
 
 export default function HeroSection() {
     return (
-        <section className="relative py-24 px-6 md:px-10 overflow-hidden">
+        <section className="relative min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center py-16 md:py-16 px-4 md:px-10 overflow-hidden">
             {/* Background Pattern */}
             <DotPattern
                 className="absolute inset-0 z-0 opacity-20 [mask-image:radial-gradient(ellipse_at_top,white,transparent)]"
@@ -15,17 +15,17 @@ export default function HeroSection() {
                 radius={0.5}
             />
 
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto w-full">
                 <div className="text-center flex flex-col items-center justify-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7 }}
-                        className="mb-6"
+                        className="mb-4 md:mb-6"
                     >
-                        {/* Fixed the visibility by increasing opacity and using stronger contrast colors */}
-                        <span className="inline-block px-4 py-2 bg-accent/30 text-accent-foreground rounded-full text-sm font-medium">
-                            Full Stack Developer 
+                        {/* Improved visibility with stronger background/contrast */}
+                        <span className="inline-block px-3 py-1.5 md:px-4 md:py-2 bg-accent/50 text-accent-foreground rounded-full text-sm font-medium">
+                            Full Stack Developer
                         </span>
                     </motion.div>
 
@@ -33,14 +33,14 @@ export default function HeroSection() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
+                        className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight"
                     >
                         <span className="block mb-2">Backend Whisperer &</span>
 
-                        {/* Fixed text visibility by using a direct color instead of gradient-text */}
+                        {/* Ensure text visibility with direct color */}
                         <span className="text-primary font-bold">
                             <TypingAnimation startOnView
-                                className="text-primary"
+                                className="text-primary text-3xl md:text-5xl lg:text-6xl"
                             >
                                 Code Enthusiast
                             </TypingAnimation>
@@ -51,7 +51,7 @@ export default function HeroSection() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.2 }}
-                        className="text-lg md:text-xl text-muted-foreground max-w-3xl mb-10"
+                        className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 md:mb-10 px-2"
                     >
                         Hi, I&apos;m Sanithu Jayakody. I build robust, efficient, and scalable web applications
                         with a focus on optimizing backend systems. I love turning complex challenges into
@@ -62,22 +62,22 @@ export default function HeroSection() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.3 }}
-                        className="flex flex-col sm:flex-row gap-4 justify-center"
+                        className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full sm:w-auto"
                     >
-                        <Link href="/projects" className="btn btn-primary px-6 py-3">
+                        <Link href="/projects" className="btn btn-primary px-4 py-2 md:px-6 md:py-3 w-full sm:w-auto">
                             View My Projects
                         </Link>
-                        <Link href="/contact" className="btn btn-secondary px-6 py-3">
+                        <Link href="/contact" className="btn btn-secondary px-4 py-2 md:px-6 md:py-3 w-full sm:w-auto">
                             Get In Touch
                         </Link>
                     </motion.div>
 
-                    {/* Tech stack badges */}
+                    {/* Tech stack badges with improved mobile layout
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 1, delay: 0.5 }}
-                        className="mt-16 flex flex-wrap justify-center gap-3"
+                        className="mt-12 md:mt-16 flex flex-wrap justify-center gap-2 md:gap-3 px-2"
                     >
                         {['TypeScript', 'React', 'Node.js', 'Next.js', 'MongoDB', 'PostgreSQL'].map((tech, i) => (
                             <motion.span
@@ -85,18 +85,18 @@ export default function HeroSection() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.3, delay: 0.5 + (i * 0.1) }}
-                                className="px-4 py-2 bg-card text-sm rounded-full border border-border"
+                                className="px-3 py-1.5 md:px-4 md:py-2 bg-card text-xs md:text-sm rounded-full border border-border"
                             >
                                 {tech}
                             </motion.span>
                         ))}
-                    </motion.div>
+                    </motion.div> */}
                 </div>
             </div>
 
-            {/* Scroll indicator */}
+            {/* Scroll indicator - Fixed for proper centering on all screen sizes */}
             <motion.div
-                className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+                className="mx-auto w-6 text-center mt-20"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{

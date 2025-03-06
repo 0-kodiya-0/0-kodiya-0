@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { testimonialsDb } from '@/lib/db';
+import { testimonialsService } from '@/lib/services/jsonbin';
+import { CACHE_TAGS, DEFAULT_CACHE_TIME, revalidateTestimonials } from '@/lib/jsonbinCache';
 
 export async function GET(
     request: NextRequest,
@@ -14,8 +15,12 @@ export async function GET(
             );
         }
 
-        await testimonialsDb.read();
-        const testimonial = testimonialsDb.data?.testimonials.find(t => t.id === id);
+        const data = await testimonialsService.getAll({
+            revalidate: DEFAULT_CACHE_TIME,
+            tags: [CACHE_TAGS.TESTIMONIALS]
+        });
+
+        const testimonial = data.testimonials.find(t => t.id === id);
 
         if (!testimonial) {
             return NextResponse.json(
@@ -47,26 +52,27 @@ export async function PUT(
             );
         }
 
-        const data = await request.json();
+        const testimonialData = await request.json();
 
         // Validate input
-        if (!data.name || !data.role || !data.content || !data.image) {
+        if (!testimonialData.name || !testimonialData.role || !testimonialData.content || !testimonialData.image) {
             return NextResponse.json(
                 { message: 'Missing required fields' },
                 { status: 400 }
             );
         }
 
-        await testimonialsDb.read();
+        // Don't use cache for mutations
+        const data = await testimonialsService.getAll({ revalidate: false });
 
-        if (!testimonialsDb.data) {
+        if (!data.testimonials) {
             return NextResponse.json(
                 { message: 'Database not initialized' },
                 { status: 500 }
             );
         }
 
-        const testimonialIndex = testimonialsDb.data.testimonials.findIndex(t => t.id === id);
+        const testimonialIndex = data.testimonials.findIndex(t => t.id === id);
 
         if (testimonialIndex === -1) {
             return NextResponse.json(
@@ -77,14 +83,17 @@ export async function PUT(
 
         // Update testimonial with new values
         const updatedTestimonial = {
-            ...testimonialsDb.data.testimonials[testimonialIndex],
-            ...data,
+            ...data.testimonials[testimonialIndex],
+            ...testimonialData,
             id, // Ensure ID doesn't change
             updatedAt: new Date().toISOString()
         };
 
-        testimonialsDb.data.testimonials[testimonialIndex] = updatedTestimonial;
-        await testimonialsDb.write();
+        data.testimonials[testimonialIndex] = updatedTestimonial;
+        await testimonialsService.update(data);
+
+        // Revalidate cache after update
+        revalidateTestimonials();
 
         return NextResponse.json(updatedTestimonial);
     } catch (error) {
@@ -109,18 +118,19 @@ export async function PATCH(
             );
         }
 
-        const data = await request.json();
+        const testimonialData = await request.json();
 
-        await testimonialsDb.read();
+        // Don't use cache for mutations
+        const data = await testimonialsService.getAll({ revalidate: false });
 
-        if (!testimonialsDb.data) {
+        if (!data.testimonials) {
             return NextResponse.json(
                 { message: 'Database not initialized' },
                 { status: 500 }
             );
         }
 
-        const testimonialIndex = testimonialsDb.data.testimonials.findIndex(t => t.id === id);
+        const testimonialIndex = data.testimonials.findIndex(t => t.id === id);
 
         if (testimonialIndex === -1) {
             return NextResponse.json(
@@ -131,15 +141,18 @@ export async function PATCH(
 
         // Update only the provided fields
         const updatedTestimonial = {
-            ...testimonialsDb.data.testimonials[testimonialIndex],
-            ...data,
+            ...data.testimonials[testimonialIndex],
+            ...testimonialData,
             id, // Ensure ID doesn't change
-            createdAt: testimonialsDb.data.testimonials[testimonialIndex].createdAt, // Preserve createdAt
+            createdAt: data.testimonials[testimonialIndex].createdAt, // Preserve createdAt
             updatedAt: new Date().toISOString()
         };
 
-        testimonialsDb.data.testimonials[testimonialIndex] = updatedTestimonial;
-        await testimonialsDb.write();
+        data.testimonials[testimonialIndex] = updatedTestimonial;
+        await testimonialsService.update(data);
+
+        // Revalidate cache after update
+        revalidateTestimonials();
 
         return NextResponse.json(updatedTestimonial);
     } catch (error) {
@@ -164,16 +177,17 @@ export async function DELETE(
             );
         }
 
-        await testimonialsDb.read();
+        // Don't use cache for mutations
+        const data = await testimonialsService.getAll({ revalidate: false });
 
-        if (!testimonialsDb.data) {
+        if (!data.testimonials) {
             return NextResponse.json(
                 { message: 'Database not initialized' },
                 { status: 500 }
             );
         }
 
-        const testimonialIndex = testimonialsDb.data.testimonials.findIndex(t => t.id === id);
+        const testimonialIndex = data.testimonials.findIndex(t => t.id === id);
 
         if (testimonialIndex === -1) {
             return NextResponse.json(
@@ -183,8 +197,11 @@ export async function DELETE(
         }
 
         // Remove the testimonial
-        testimonialsDb.data.testimonials.splice(testimonialIndex, 1);
-        await testimonialsDb.write();
+        data.testimonials.splice(testimonialIndex, 1);
+        await testimonialsService.update(data);
+
+        // Revalidate cache after delete
+        revalidateTestimonials();
 
         return NextResponse.json({ message: 'Testimonial deleted successfully' });
     } catch (error) {

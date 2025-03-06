@@ -1,20 +1,24 @@
 import { NextResponse } from 'next/server';
-import { testimonialsDb } from '@/lib/db';
+import { testimonialsService } from '@/lib/services/jsonbin';
+import { CACHE_TAGS, DEFAULT_CACHE_TIME } from '@/lib/jsonbinCache';
 
 export async function GET() {
-    try {
-        await testimonialsDb.read();
+  try {
+    const data = await testimonialsService.getAll({
+      revalidate: DEFAULT_CACHE_TIME,
+      tags: [CACHE_TAGS.FEATURED_TESTIMONIALS]
+    });
 
-        const featuredTestimonials = (testimonialsDb.data?.testimonials || [])
-            .filter(testimonial => testimonial.featured)
-            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    const featuredTestimonials = (data.testimonials || [])
+      .filter(testimonial => testimonial.featured)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-        return NextResponse.json(featuredTestimonials);
-    } catch (error) {
-        console.error('Error fetching featured testimonials:', error);
-        return NextResponse.json(
-            { message: 'Failed to fetch featured testimonials' },
-            { status: 500 }
-        );
-    }
+    return NextResponse.json(featuredTestimonials);
+  } catch (error) {
+    console.error('Error fetching featured testimonials:', error);
+    return NextResponse.json(
+      { message: 'Failed to fetch featured testimonials' },
+      { status: 500 }
+    );
+  }
 }

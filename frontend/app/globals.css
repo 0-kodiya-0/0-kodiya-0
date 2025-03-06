@@ -129,55 +129,121 @@
     color: var(--foreground);
     font-feature-settings: "rlig" 1, "calt" 1;
     font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     letter-spacing: -0.025em;
+    line-height: 1.2; /* Improved line height for better readability */
   }
 
   h1 {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
+    font-size: 1.875rem; /* 30px - Mobile */
+    line-height: 2.25rem; /* 36px */
+  }
+
+  @media (min-width: 640px) {
+    h1 {
+      font-size: 2.25rem; /* 36px - Tablet */
+      line-height: 2.5rem; /* 40px */
+    }
   }
 
   @media (min-width: 768px) {
     h1 {
-      font-size: 3rem;
+      font-size: 3rem; /* 48px - Desktop */
       line-height: 1;
     }
   }
 
   h2 {
-    font-size: 1.875rem;
-    line-height: 2.25rem;
+    font-size: 1.5rem; /* 24px - Mobile */
+    line-height: 2rem; /* 32px */
+  }
+
+  @media (min-width: 640px) {
+    h2 {
+      font-size: 1.875rem; /* 30px - Tablet */
+      line-height: 2.25rem; /* 36px */
+    }
   }
 
   @media (min-width: 768px) {
     h2 {
-      font-size: 2.25rem;
-      line-height: 2.5rem;
+      font-size: 2.25rem; /* 36px - Desktop */
+      line-height: 2.5rem; /* 40px */
     }
   }
 
   h3 {
-    font-size: 1.5rem;
-    line-height: 2rem;
+    font-size: 1.25rem; /* 20px - Mobile */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  @media (min-width: 640px) {
+    h3 {
+      font-size: 1.5rem; /* 24px - Tablet */
+      line-height: 2rem; /* 32px */
+    }
   }
 
   @media (min-width: 768px) {
     h3 {
-      font-size: 1.875rem;
-      line-height: 2.25rem;
+      font-size: 1.875rem; /* 30px - Desktop */
+      line-height: 2.25rem; /* 36px */
     }
   }
 
   p {
-    line-height: 1.75rem;
+    font-size: 0.875rem; /* 14px - Mobile */
+    line-height: 1.5rem; /* 24px */
+  }
+
+  @media (min-width: 640px) {
+    p {
+      font-size: 1rem; /* 16px - Tablet and up */
+      line-height: 1.75rem; /* 28px */
+    }
+  }
+
+  /* Improved touch targets for mobile */
+  button, 
+  .btn, 
+  a.btn, 
+  input[type="button"], 
+  input[type="submit"] {
+    min-height: 2.5rem; /* Minimum height for better touch targets */
+    touch-action: manipulation;
   }
 
   code, pre, .terminal, .font-mono {
     font-family: var(--font-mono);
+  }
+  
+  /* Ensure code blocks don't overflow on mobile */
+  pre, code {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  
+  /* Improved scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 20px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground) / 0.5);
   }
 }
 
@@ -192,7 +258,9 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+    /* Improved responsive padding */
+    @apply px-3 py-1.5 sm:px-4 sm:py-2;
   }
   
   .btn-primary {
@@ -204,7 +272,9 @@
   }
   
   .card {
-    @apply rounded-lg border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md;
+    @apply rounded-lg border border-border bg-card shadow-sm transition-all hover:shadow-md;
+    /* Improved responsive padding */
+    @apply p-4 sm:p-5 md:p-6;
   }
   
   .gradient-text {
@@ -216,10 +286,29 @@
   }
   
   .code-annotation {
-    @apply relative border-l-4 border-primary pl-4;
+    @apply relative border-l-4 border-primary pl-3 sm:pl-4;
   }
   
   .code-block {
-    @apply rounded-md bg-syntax-bg p-4 text-white overflow-x-auto;
+    @apply rounded-md bg-syntax-bg p-3 sm:p-4 text-white overflow-x-auto;
+  }
+  
+  /* Mobile-specific optimizations */
+  @media (max-width: 639px) {
+    .sm-touch-target {
+      @apply min-h-[44px] min-w-[44px]; /* Apple's recommended minimum touch target size */
+    }
+    
+    .sm-stack {
+      @apply flex flex-col;
+    }
+    
+    .sm-stack-horizontal {
+      @apply flex flex-row;
+    }
+    
+    .sm-full-width {
+      @apply w-full;
+    }
   }
 }

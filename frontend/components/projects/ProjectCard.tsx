@@ -9,15 +9,19 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
+    // Only show up to 4 technologies to maintain consistent card height
+    const displayTechnologies = project.technologies.slice(0, 4);
+    const hasMoreTech = project.technologies.length > 4;
+
     return (
         <motion.div
-            className="card group relative h-full overflow-hidden"
+            className="card group relative h-full flex flex-col overflow-hidden"
             whileHover={{ y: -5 }}
             transition={{ duration: 0.3 }}
         >
             {/* Project Image */}
-            <div className="h-48 bg-gradient-to-r from-(--primary) to-(--accent) rounded-md mb-4 overflow-hidden relative">
-                <div className="absolute inset-0 bg-(--syntax-bg) opacity-80 group-hover:opacity-60 transition-opacity"></div>
+            <div className="h-48 bg-gradient-to-r from-primary to-accent rounded-md mb-4 overflow-hidden relative">
+                <div className="absolute inset-0 bg-syntax-bg opacity-80 group-hover:opacity-60 transition-opacity"></div>
                 <motion.div
                     className="absolute inset-0 flex items-center justify-center"
                     whileHover={{ scale: 1.1 }}
@@ -27,27 +31,48 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 </motion.div>
             </div>
 
-            {/* Project Info */}
-            <h3 className="text-xl font-bold mb-2 group-hover:text-(--primary) transition-colors">{project.title}</h3>
-            <p className="text-sm mb-4">{project.description}</p>
+            {/* Project Info - Fixed Height Container */}
+            <div className="flex flex-col flex-grow">
+                {/* Title with fixed height */}
+                <div className="h-14 mb-2">
+                    <h3 className="text-xl font-bold leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                        {project.title}
+                    </h3>
+                </div>
 
-            {/* Technologies */}
-            <div className="flex flex-wrap gap-2 mb-4">
-                {project.technologies.map((tech) => (
-                    <span
-                        key={tech}
-                        className="text-xs px-2 py-1 bg-(--card-hover) rounded-full transition-colors group-hover:bg-(--primary-light) group-hover:text-white opacity-80 group-hover:opacity-100"
-                    >
-                        {tech}
-                    </span>
-                ))}
+                {/* Description with fixed height and truncation */}
+                <div className="h-12 mb-4">
+                    <p className="text-sm text-muted-foreground line-clamp-2">
+                        {project.description}
+                    </p>
+                </div>
+
+                {/* Technologies - Fixed height container */}
+                <div className="flex flex-wrap gap-2 mb-4 h-12 content-start">
+                    {displayTechnologies.map((tech) => (
+                        <span
+                            key={tech}
+                            className="inline-block text-xs px-2 py-1 bg-card-hover rounded-md whitespace-nowrap transition-colors border border-transparent group-hover:border-primary/30"
+                        >
+                            {tech}
+                        </span>
+                    ))}
+                    {hasMoreTech && (
+                        <span className="inline-block text-xs px-2 py-1 bg-card-hover rounded-md whitespace-nowrap">
+                            +{project.technologies.length - 4}
+                        </span>
+                    )}
+                </div>
+
+                {/* Spacer to push links to bottom */}
+                <div className="flex-grow"></div>
             </div>
 
             {/* Links */}
-            <div className="flex justify-between mt-auto pt-2 border-t border-gray-200 dark:border-gray-800">
+            <div className="flex justify-between pt-2 border-t border-border mt-auto">
                 <Link
                     href={`/projects/${project.id}`}
-                    className="text-(--primary) animated-underline text-sm flex items-center"
+                    className="text-primary animated-underline text-sm flex items-center"
                 >
                     <span>View Project</span>
                     <motion.svg
@@ -73,7 +98,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
                 <a
                     href={project.githubUrl}
-                    className="text-(--syntax-comment) hover:text-(--foreground) transition-colors text-sm"
+                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
@@ -95,7 +120,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
             {/* "Featured" badge for featured projects */}
             {project.featured && (
-                <div className="absolute top-3 right-3 bg-(--primary) text-white text-xs px-2 py-1 rounded-full">
+                <div className="absolute top-3 right-3 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full z-10">
                     Featured
                 </div>
             )}

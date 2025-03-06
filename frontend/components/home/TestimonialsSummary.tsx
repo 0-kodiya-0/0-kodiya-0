@@ -51,15 +51,15 @@ export default function TestimonialsSection() {
 
     if (loading) {
         return (
-            <section className="py-20 overflow-hidden relative">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-10">
-                        <h2 className="text-3xl font-bold mb-4">What People Say</h2>
+            <section className="py-16 md:py-20 overflow-hidden relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div className="text-center mb-8 md:mb-10">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">What People Say</h2>
                     </div>
-                    <div className="flex justify-center items-center py-20">
+                    <div className="flex justify-center items-center py-16 md:py-20">
                         <div className="flex flex-col items-center">
-                            <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full mb-4"></div>
-                            <p className="text-muted-foreground">Loading testimonials...</p>
+                            <div className="animate-spin h-6 w-6 md:h-8 md:w-8 border-2 border-primary border-t-transparent rounded-full mb-3 md:mb-4"></div>
+                            <p className="text-sm md:text-base text-muted-foreground">Loading testimonials...</p>
                         </div>
                     </div>
                 </div>
@@ -69,23 +69,23 @@ export default function TestimonialsSection() {
 
     if (error) {
         return (
-            <section className="py-20 overflow-hidden relative">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-10">
-                        <h2 className="text-3xl font-bold mb-4">What People Say</h2>
+            <section className="py-16 md:py-20 overflow-hidden relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div className="text-center mb-8 md:mb-10">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">What People Say</h2>
                     </div>
-                    <div className="text-center py-12 border border-border rounded-lg">
+                    <div className="text-center py-10 md:py-12 border border-border rounded-lg">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-10 w-10 mx-auto mb-4 text-muted-foreground"
+                            className="h-8 w-8 md:h-10 md:w-10 mx-auto mb-3 md:mb-4 text-muted-foreground"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
-                        <p className="text-lg font-medium mb-2">{error}</p>
-                        <p className="text-muted-foreground">Please try refreshing the page or check back later.</p>
+                        <p className="text-base md:text-lg font-medium mb-2">{error}</p>
+                        <p className="text-sm md:text-base text-muted-foreground">Please try refreshing the page or check back later.</p>
                     </div>
                 </div>
             </section>
@@ -94,32 +94,32 @@ export default function TestimonialsSection() {
 
     if (testimonials.length === 0) {
         return (
-            <section className="py-20 overflow-hidden relative">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-10">
-                        <h2 className="text-3xl font-bold mb-4">What People Say</h2>
-                        <p className="text-muted-foreground max-w-3xl mx-auto">
+            <section className="py-16 md:py-20 overflow-hidden relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div className="text-center mb-8 md:mb-10">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">What People Say</h2>
+                        <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto">
                             Client testimonials will appear here soon. Check back later to see what people
                             are saying about my work.
                         </p>
                     </div>
                     <motion.div
-                        className="py-12 border border-border rounded-lg text-center"
+                        className="py-10 md:py-12 border border-border rounded-lg text-center"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-16 w-16 mx-auto mb-4 text-muted-foreground/30"
+                            className="h-12 w-12 md:h-16 md:w-16 mx-auto mb-3 md:mb-4 text-muted-foreground/30"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                         </svg>
-                        <p className="text-muted-foreground">Testimonials coming soon</p>
-                        <p className="mt-3 text-sm">
+                        <p className="text-sm md:text-base text-muted-foreground">Testimonials coming soon</p>
+                        <p className="mt-3 text-xs md:text-sm">
                             Are we working together? <a href="/contact" className="text-primary">Contact me</a> to share your feedback.
                         </p>
                     </motion.div>
@@ -129,17 +129,17 @@ export default function TestimonialsSection() {
     }
 
     return (
-        <section className="py-20 overflow-hidden relative">
-            <div className="max-w-7xl mx-auto px-6 mb-12">
+        <section className="py-16 md:py-20 overflow-hidden relative">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 md:mb-12">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.7 }}
-                    className="text-center mb-10"
+                    className="text-center mb-8 md:mb-10"
                 >
-                    <h2 className="text-3xl font-bold mb-4">What People Say</h2>
-                    <p className="text-muted-foreground max-w-3xl mx-auto">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">What People Say</h2>
+                    <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto">
                         I&apos;ve had the pleasure of working with amazing clients and teams throughout my career.
                         Here&apos;s what they have to say about our collaborations.
                     </p>
@@ -150,7 +150,8 @@ export default function TestimonialsSection() {
                 {/* If we have enough testimonials for two rows, show them in marquees */}
                 {testimonials.length >= 4 ? (
                     <>
-                        <Marquee pauseOnHover className="[--duration:35s] mb-8">
+                        {/* Adjust marquee speed and spacing for different screens */}
+                        <Marquee pauseOnHover className="[--duration:20s] sm:[--duration:25s] md:[--duration:35s] mb-6 md:mb-8">
                             {firstRow.map((testimonial) => (
                                 <TestimonialCard
                                     key={`first-${testimonial.id}`}
@@ -159,7 +160,8 @@ export default function TestimonialsSection() {
                             ))}
                         </Marquee>
 
-                        <Marquee reverse pauseOnHover className="[--duration:40s]">
+                        {/* Second row with reverse direction and slightly different speed */}
+                        <Marquee reverse pauseOnHover className="[--duration:25s] sm:[--duration:30s] md:[--duration:40s]">
                             {secondRow.map((testimonial) => (
                                 <TestimonialCard
                                     key={`second-${testimonial.id}`}
@@ -169,27 +171,44 @@ export default function TestimonialsSection() {
                         </Marquee>
                     </>
                 ) : (
-                    // If we have fewer testimonials, center them in a single row
-                    <div className="flex flex-wrap justify-center gap-6 px-6">
-                        {testimonials.map((testimonial) => (
+                    // For fewer testimonials, especially when there's only one
+                    <div className="flex flex-row items-center justify-center px-4 sm:px-6">
+                        {testimonials.length === 1 ? (
+                            // Special case for single testimonial - centered with controlled width
                             <motion.div
-                                key={testimonial.id}
                                 variants={fadeIn}
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true, margin: "-50px" }}
+                                className="w-full max-w-lg mx-auto flex items-center justify-center"
                             >
-                                <TestimonialCard testimonial={testimonial} />
+                                <TestimonialCard testimonial={testimonials[0]} />
                             </motion.div>
-                        ))}
+                        ) : (
+                            // For 2-3 testimonials, use a flex grid
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl mx-auto">
+                                {testimonials.map((testimonial) => (
+                                    <motion.div
+                                        key={testimonial.id}
+                                        variants={fadeIn}
+                                        initial="hidden"
+                                        whileInView="visible"
+                                        viewport={{ once: true, margin: "-50px" }}
+                                        className="w-full"
+                                    >
+                                        <TestimonialCard testimonial={testimonial} />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
 
-                {/* Gradient fade at edges when using marquee */}
+                {/* Gradient fade at edges when using marquee - modified for better mobile experience */}
                 {testimonials.length >= 4 && (
                     <>
-                        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-background to-transparent"></div>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-background to-transparent"></div>
+                        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/5 sm:w-1/4 md:w-1/3 bg-gradient-to-r from-background to-transparent"></div>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/5 sm:w-1/4 md:w-1/3 bg-gradient-to-l from-background to-transparent"></div>
                     </>
                 )}
             </div>

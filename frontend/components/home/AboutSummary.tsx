@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { DotPattern } from '../magicui/dot-pattern';
+import { TerminalContent } from '../shared/TerminalContent';
+import { CodeDisplay } from '../shared/CodeDisplay';
 
 export default function AboutSummary() {
     // Animation variants
@@ -25,7 +27,7 @@ export default function AboutSummary() {
         },
     };
 
-    // Updated skills array with icons
+    // Skills array with icons
     const skills = [
         { name: 'JavaScript/TypeScript', icon: '⟨⁄⟩' },
         { name: 'Next.js/React', icon: '⚛' },
@@ -35,61 +37,15 @@ export default function AboutSummary() {
         { name: 'Problem Solving', icon: '🧩' }
     ];
 
-    // Updated approach items with icons
-    const approaches = [
-        {
-            icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
-                    <path d="M20 22h-2"></path>
-                    <path d="M20 15v7"></path>
-                    <path d="M13 22h-2"></path>
-                    <path d="M13 6v16"></path>
-                    <path d="M6 22H4"></path>
-                    <path d="M6 2v20"></path>
-                    <path d="M2 12h20"></path>
-                    <path d="M2 7h8"></path>
-                    <path d="M2 17h8"></path>
-                </svg>
-            ),
-            text: 'Building scalable backend systems that handle growth seamlessly'
-        },
-        {
-            icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
-                    <path d="M7 8l-4 4 4 4"></path>
-                    <path d="M17 8l4 4-4 4"></path>
-                    <path d="M14 4l-4 16"></path>
-                </svg>
-            ),
-            text: 'Writing clean, maintainable code with thorough test coverage'
-        },
-        {
-            icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
-                    <path d="M3 3v18h18"></path>
-                    <path d="M18 3v4"></path>
-                    <path d="M18 11v4"></path>
-                    <path d="M13 3v4"></path>
-                    <path d="M13 11v4"></path>
-                    <path d="M8 3v4"></path>
-                    <path d="M8 11v10"></path>
-                </svg>
-            ),
-            text: 'Optimizing database queries and API performance for fast response times'
-        },
-        {
-            icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
-                    <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
-                    <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
-                </svg>
-            ),
-            text: 'Continuously learning and implementing the latest technologies'
-        }
-    ];
+    // Format skills into a nicely displayed code string
+    const skillsCode = `// My tech journey
+const skills = [
+  ${skills.map(skill => `'${skill.icon} ${skill.name}'`).join(',\n  ')}
+];
+// Always exploring and growing!`;
 
     return (
-        <section id="about" className="relative py-20 px-6 max-w-7xl mx-auto overflow-hidden">
+        <section id="about" className="relative py-3 md:py-12 px-4 md:px-6 max-w-7xl mx-auto overflow-hidden">
             {/* Background Dot Pattern */}
             <DotPattern
                 className="[mask-image:radial-gradient(500px_circle_at_right_center,white,transparent)]"
@@ -101,17 +57,16 @@ export default function AboutSummary() {
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: true, margin: "-50px" }}
             >
                 <motion.div
-                    className="flex justify-between items-center mb-10"
+                    className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-10 gap-4"
                     variants={itemVariants}
                 >
-                    <h2 className="text-3xl font-bold gradient-text inline-block">About.me()</h2>
-                    <Link href="/about" className="btn btn-secondary text-sm">View Full Profile</Link>
+                    <h2 className="text-2xl md:text-3xl font-bold gradient-text inline-block">About.me()</h2>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                     <motion.div
                         className="card code-annotation bg-card/50 backdrop-blur-sm"
                         variants={itemVariants}
@@ -124,22 +79,26 @@ export default function AboutSummary() {
                             </svg>
                             My Journey
                         </h3>
-                        <p className="mb-4 text-muted-foreground">
+                        <p className="mb-4 text-muted-foreground text-sm md:text-base">
                             Full Stack Developer specializing in backend optimization and scaling solutions.
                             I transform complex challenges into elegant, efficient systems that deliver exceptional performance.
                         </p>
                         <motion.div
-                            className="code-block text-sm relative overflow-hidden rounded-lg"
                             initial={{ height: 0, opacity: 0 }}
                             whileInView={{ height: 'auto', opacity: 1 }}
                             transition={{ duration: 0.6, delay: 0.3 }}
                             viewport={{ once: true }}
+                            className="relative"
                         >
-                            <pre className="p-4">
-                                {`// My tech journey\n`}
-                                {`const skills = [${skills.map(skill => `'${skill.icon} ${skill.name}'`).join(',\n  ')}];`}
-                                {`// Always exploring and growing!`}
-                            </pre>
+                            <div className="overflow-x-auto">
+                                <CodeDisplay
+                                    code={skillsCode}
+                                    language="javascript"
+                                    filename="skills.js"
+                                    lightTheme="github-light"
+                                    darkTheme="github-dark"
+                                />
+                            </div>
 
                             {/* Animated cursor */}
                             <motion.div
@@ -158,26 +117,25 @@ export default function AboutSummary() {
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 text-primary">
                                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
                             </svg>
-                            My Approach
+                            My Methodology
                         </h3>
-                        <ul className="space-y-4">
-                            {approaches.map((item, index) => (
-                                <motion.li
-                                    key={index}
-                                    className="flex items-start bg-card/70 p-3 rounded-lg border border-border/50 transform transition-all"
-                                    initial={{ x: -10, opacity: 0 }}
-                                    whileInView={{ x: 0, opacity: 1 }}
-                                    transition={{ duration: 0.5, delay: 0.1 * index }}
-                                    viewport={{ once: true }}
-                                    whileHover={{ x: 5, backgroundColor: 'rgba(var(--card-hover), 0.8)' }}
-                                >
-                                    <span className="mr-3 mt-0.5 flex-shrink-0">{item.icon}</span>
-                                    <span className="text-sm">{item.text}</span>
-                                </motion.li>
-                            ))}
-                        </ul>
+                        <div className="p-0 sm:p-2 overflow-hidden">
+                            <TerminalContent />
+                        </div>
                     </motion.div>
                 </div>
+            </motion.div>
+
+            <motion.div
+                className="mt-10 mb-10 flex justify-center"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+            >
+                <Link href="/projects" className="btn btn-secondary text-sm py-2  w-full max-w-xs">
+                    View Full Profile
+                </Link>
             </motion.div>
         </section>
     );

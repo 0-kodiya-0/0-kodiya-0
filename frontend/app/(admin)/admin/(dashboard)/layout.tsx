@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState, useEffect } from 'react';
+import { ReactNode, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -69,24 +69,7 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
         }
     };
 
-    // Check authentication on component mount and route changes
-    useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const res = await fetch('/api/auth/verify', {
-                    credentials: 'include',
-                });
-
-                if (!res.ok) {
-                    router.push('/admin');
-                }
-            } catch {
-                router.push('/admin');
-            }
-        };
-
-        checkAuth();
-    }, [router]);
+    // Authentication is now handled by middleware, so we removed the useEffect check
 
     return (
         <div className="min-h-screen flex flex-col md:flex-row bg-background">

@@ -4,6 +4,7 @@ import "../globals.css";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
+import UnderConstructionBanner from "@/components/shared/UnderConstructionBanner";
 
 const jetBrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -46,6 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${jetBrainsMono.variable} ${inter.variable}`}>
       <body className="antialiased">
+        <UnderConstructionBanner showDismissButton />
         <ThemeProvider>
           <main className="min-h-screen flex flex-col">
             <Navbar />

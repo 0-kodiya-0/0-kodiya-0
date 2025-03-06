@@ -62,13 +62,13 @@ export default function ContactSummary() {
   };
 
   return (
-    <section id="contact" className="py-24 px-6 relative">
+    <section id="contact" className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-card-hover/30 dark:to-background/30 z-0"></div>
 
       <div className="max-w-5xl mx-auto relative">
-        <div className="mb-16 text-center">
+        <div className="mb-12 md:mb-16 text-center">
           <motion.h2
-            className="text-3xl font-bold mb-3"
+            className="text-2xl sm:text-3xl font-bold mb-3"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -79,7 +79,7 @@ export default function ContactSummary() {
           </motion.h2>
 
           <motion.p
-            className="text-muted-foreground max-w-lg mx-auto"
+            className="text-sm sm:text-base text-muted-foreground max-w-lg mx-auto px-2"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -91,7 +91,7 @@ export default function ContactSummary() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Contact cards */}
+          {/* Contact cards - 2 columns on small devices, 1 on very small */}
           <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {contactInfo.map((item, index) => (
               <motion.div
@@ -105,7 +105,7 @@ export default function ContactSummary() {
                 onHoverStart={() => setHoverIndex(index)}
                 onHoverEnd={() => setHoverIndex(null)}
               >
-                <div className={`h-full border border-border ${hoverIndex === index ? 'bg-card' : 'bg-transparent'} rounded-lg p-5 transition-all duration-300`}>
+                <div className={`h-full border border-border ${hoverIndex === index ? 'bg-card' : 'bg-transparent'} rounded-lg p-4 sm:p-5 transition-all duration-300`}>
                   {item.link ? (
                     <a
                       href={item.link}
@@ -135,7 +135,7 @@ export default function ContactSummary() {
 
           {/* CTA */}
           <motion.div
-            className="bg-card border border-border rounded-lg p-6 flex flex-col justify-between"
+            className="bg-card border border-border rounded-lg p-4 sm:p-6 flex flex-col justify-between"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -144,20 +144,20 @@ export default function ContactSummary() {
           >
             <div>
               <h3 className="font-medium mb-2">Ready to work together?</h3>
-              <p className="text-sm text-muted-foreground mb-6">
+              <p className="text-xs sm:text-sm text-muted-foreground mb-6">
                 Have a project in mind or want to explore possibilities? I&apos;d love to hear from you.
               </p>
 
               <div className="flex items-center mb-4">
                 <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                <p className="text-sm">Available for new projects</p>
+                <p className="text-xs sm:text-sm">Available for new projects</p>
               </div>
             </div>
 
             <div className="space-y-3">
               <Link
                 href="/contact"
-                className="btn btn-primary w-full justify-center text-center"
+                className="btn btn-primary w-full justify-center text-center text-sm py-2"
               >
                 Send a Message
               </Link>
@@ -165,7 +165,7 @@ export default function ContactSummary() {
               <a
                 href="/downloads/SanithuJayakody-Resume.pdf"
                 download
-                className="btn btn-secondary w-full justify-center text-center"
+                className="btn btn-secondary w-full justify-center text-center text-sm py-2"
               >
                 Download Resume
               </a>
