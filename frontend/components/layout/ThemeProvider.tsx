@@ -12,18 +12,10 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-    // Check if we're in the browser environment
-    const isClient = typeof window !== 'undefined';
+    const [isClient, setIsClient] = useState(false);
 
     // Initialize theme based on user's system preference or saved preference
-    const [theme, setTheme] = useState<Theme>(() => {
-        if (!isClient) return 'dark'; // Default to dark on server
-
-        const savedTheme = localStorage.getItem('theme') as Theme;
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        return savedTheme || (prefersDark ? 'dark' : 'light');
-    });
+    const [theme, setTheme] = useState<Theme | null>(null);
 
     // Toggle between light and dark theme
     const toggleTheme = () => {
@@ -38,7 +30,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
     // Apply theme class to html element
     useEffect(() => {
-        if (!isClient) return;
+        setIsClient(true);
+
+        const savedTheme = localStorage.getItem('theme') as Theme;
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        setTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
 
         const root = document.documentElement;
 
@@ -48,6 +45,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
             root.classList.remove('dark');
         }
     }, [theme, isClient]);
+
+    if (!isClient || theme === null) {
+        return null;
+    }
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>

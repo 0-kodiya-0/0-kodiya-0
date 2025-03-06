@@ -73,21 +73,21 @@ export default function ProjectsSummary() {
   const renderContent = () => {
     if (loading) {
       return (
-          <section className="py-16 md:py-20 overflow-hidden relative">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                  <div className="text-center mb-8 md:mb-10">
-                      <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">My projects</h2>
-                  </div>
-                  <div className="flex justify-center items-center py-16 md:py-20">
-                      <div className="flex flex-col items-center">
-                          <div className="animate-spin h-6 w-6 md:h-8 md:w-8 border-2 border-primary border-t-transparent rounded-full mb-3 md:mb-4"></div>
-                          <p className="text-sm md:text-base text-muted-foreground">Loading projects...</p>
-                      </div>
-                  </div>
+        <section className="py-16 md:py-20 overflow-hidden relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="text-center mb-8 md:mb-10">
+              <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">My projects</h2>
+            </div>
+            <div className="flex justify-center items-center py-16 md:py-20">
+              <div className="flex flex-col items-center">
+                <div className="animate-spin h-6 w-6 md:h-8 md:w-8 border-2 border-primary border-t-transparent rounded-full mb-3 md:mb-4"></div>
+                <p className="text-sm md:text-base text-muted-foreground">Loading projects...</p>
               </div>
-          </section>
+            </div>
+          </div>
+        </section>
       );
-  }
+    }
 
     if (error) {
       return (
@@ -170,7 +170,7 @@ export default function ProjectsSummary() {
               ))}
             </Carousel>
           </div>
-          
+
           {/* Desktop "View All Projects" button */}
           <motion.div
             className="mt-6 flex justify-center"
