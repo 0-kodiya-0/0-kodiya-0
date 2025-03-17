@@ -6,6 +6,8 @@
 
 [![Profile Views](https://komarev.com/ghpvc/?username=0-kodiya-0&style=for-the-badge&color=1A1B27)](https://github.com/0-kodiya-0)
 
+### 🌐 [sanithu-jayakody.me](https://sanithu-jayakody.me/)
+
 </div>
 
 ---
