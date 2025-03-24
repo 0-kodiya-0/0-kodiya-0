@@ -1,33 +1,18 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import { DotPattern } from '../magicui/dot-pattern';
 import { useTheme } from './ThemeProvider';
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isResumeDropdownOpen, setIsResumeDropdownOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
     const { theme, toggleTheme } = useTheme();
 
     const navItems = ['About', 'Projects', 'Contact'];
 
     // Close dropdown when clicking outside
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsResumeDropdownOpen(false);
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
 
     return (
         <nav className={`sticky top-0 z-50 border-b py-4 px-6 backdrop-blur-sm ${theme === 'dark' ? 'border-gray-800 bg-background/90' : 'border-gray-200 bg-white/90'
@@ -69,74 +54,32 @@ export default function Navbar() {
                         </motion.div>
                     ))}
 
-                    {/* Resume Download Button */}
-                    <div className="relative" ref={dropdownRef}>
-                        <motion.button
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: 0.5 }}
-                            onClick={() => setIsResumeDropdownOpen(!isResumeDropdownOpen)}
-                            className="btn btn-primary flex items-center gap-1 text-sm"
+                    {/* CV Download Button */}
+                    <motion.a
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.5 }}
+                        href="/downloads/CV.pdf"
+                        download
+                        className="btn btn-primary flex items-center gap-1 text-sm"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7 10 12 15 17 10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
-                            Resume
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="14"
-                                height="14"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className={cn("transition-transform", isResumeDropdownOpen && "rotate-180")}
-                            >
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </motion.button>
-
-                        <AnimatePresence>
-                            {isResumeDropdownOpen && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: -5 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -5 }}
-                                    transition={{ duration: 0.2 }}
-                                    className="absolute right-0 mt-2 w-48 bg-card shadow-lg rounded-md border border-gray-200 dark:border-gray-800 overflow-hidden"
-                                >
-                                    <a
-                                        href="/downloads/SanithuJayakody-CV.pdf"
-                                        download
-                                        className="block px-4 py-2 hover:bg-card-hover transition-colors"
-                                    >
-                                        Download CV
-                                    </a>
-                                    <a
-                                        href="/downloads/SanithuJayakody-Resume.pdf"
-                                        download
-                                        className="block px-4 py-2 hover:bg-card-hover transition-colors"
-                                    >
-                                        Download Resume
-                                    </a>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Resume
+                    </motion.a>
 
                     {/* Theme Toggle Button */}
                     <motion.button
@@ -302,59 +245,33 @@ export default function Navbar() {
                                 </Link>
                             ))}
 
-                            {/* Resume Download Options (Mobile) */}
+                            {/* CV Download Option (Mobile) */}
                             <div className="py-2 border-t border-gray-200 dark:border-gray-800">
                                 <div className="text-sm font-medium mb-2 text-muted-foreground">Download</div>
-                                <div className="flex flex-col gap-2">
-                                    <a
-                                        href="/downloads/SanithuJayakody-CV.pdf"
-                                        download
-                                        className="flex items-center gap-2"
-                                        onClick={() => setIsMenuOpen(false)}
+                                <a
+                                    href="/downloads/CV.pdf"
+                                    download
+                                    className="flex items-center gap-2"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="text-primary"
                                     >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="16"
-                                            height="16"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            className="text-primary"
-                                        >
-                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                            <polyline points="7 10 12 15 17 10"></polyline>
-                                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                                        </svg>
-                                        CV (Detailed)
-                                    </a>
-                                    <a
-                                        href="/downloads/SanithuJayakody-Resume.pdf"
-                                        download
-                                        className="flex items-center gap-2"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="16"
-                                            height="16"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            className="text-primary"
-                                        >
-                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                            <polyline points="7 10 12 15 17 10"></polyline>
-                                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                                        </svg>
-                                        Resume (Concise)
-                                    </a>
-                                </div>
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    Resume
+                                </a>
                             </div>
                         </div>
                     </motion.div>

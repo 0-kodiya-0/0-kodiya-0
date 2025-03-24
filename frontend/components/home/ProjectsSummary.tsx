@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 import ProjectCard from '../projects/ProjectCard';
 import { Project } from '../projects/project.types';
 import { DotPattern } from '../magicui/dot-pattern';
-import { Marquee } from '../magicui/marquee';
 import { Carousel } from '../shared/Carousel';
 
 // Animation variants - defined outside component to avoid recreation on renders
@@ -18,24 +17,6 @@ const headerVariants = {
     transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] }
   }
 };
-
-// Technologies data - defined outside component to avoid recreation on renders
-const technologies = [
-  { name: 'React', icon: '⚛️' },
-  { name: 'Next.js', icon: '▲' },
-  { name: 'TypeScript', icon: '🔷' },
-  { name: 'Node.js', icon: '🟢' },
-  { name: 'MongoDB', icon: '🍃' },
-  { name: 'PostgreSQL', icon: '🐘' },
-  { name: 'Tailwind CSS', icon: '🌊' },
-  { name: 'GraphQL', icon: '⬢' },
-  { name: 'Docker', icon: '🐳' },
-  { name: 'AWS', icon: '☁️' },
-  { name: 'Git', icon: '🔄' },
-  { name: 'Express', icon: '🚂' },
-  { name: 'Redux', icon: '🔄' },
-  { name: 'Firebase', icon: '🔥' },
-];
 
 export default function ProjectsSummary() {
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
@@ -73,19 +54,12 @@ export default function ProjectsSummary() {
   const renderContent = () => {
     if (loading) {
       return (
-        <section className="py-16 md:py-20 overflow-hidden relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="text-center mb-8 md:mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">My projects</h2>
-            </div>
-            <div className="flex justify-center items-center py-16 md:py-20">
-              <div className="flex flex-col items-center">
-                <div className="animate-spin h-6 w-6 md:h-8 md:w-8 border-2 border-primary border-t-transparent rounded-full mb-3 md:mb-4"></div>
-                <p className="text-sm md:text-base text-muted-foreground">Loading projects...</p>
-              </div>
-            </div>
+        <div className="flex justify-center items-center py-16 md:py-20">
+          <div className="flex flex-col items-center">
+            <div className="animate-spin h-6 w-6 md:h-8 md:w-8 border-2 border-primary border-t-transparent rounded-full mb-3 md:mb-4"></div>
+            <p className="text-sm md:text-base text-muted-foreground">Loading projects...</p>
           </div>
-        </section>
+        </div>
       );
     }
 
@@ -189,7 +163,7 @@ export default function ProjectsSummary() {
   };
 
   return (
-    <section id="projects" className="relative py-16 sm:py-20 px-4 sm:px-6 bg-card-hover border-y border-border overflow-hidden">
+    <div id="projects" className="relative overflow-hidden">
       {/* Background Dot Pattern */}
       <DotPattern
         className="[mask-image:radial-gradient(500px_circle_at_left_center,white,transparent)]"
@@ -197,36 +171,19 @@ export default function ProjectsSummary() {
         radius={0.5}
       />
 
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          className="mb-6 sm:mb-10"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={headerVariants}
-        >
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl sm:text-3xl font-bold gradient-text inline-block">projects.featured()</h2>
-          </div>
-        </motion.div>
-
-        {/* Technologies Marquee - Responsive adjustment */}
-        <div className="mb-8 sm:mb-10 py-3 sm:py-4 -mx-4 sm:-mx-6 overflow-hidden">
-          <Marquee pauseOnHover className="[--duration:25s]">
-            {technologies.map((tech) => (
-              <div
-                key={tech.name}
-                className="mx-2 sm:mx-4 flex items-center bg-card py-1.5 px-3 sm:py-2 sm:px-4 rounded-md border border-border hover:border-primary hover:shadow-sm transition-all duration-300"
-              >
-                <span className="mr-1 sm:mr-2 text-lg sm:text-xl">{tech.icon}</span>
-                <span className="font-medium text-xs sm:text-sm">{tech.name}</span>
-              </div>
-            ))}
-          </Marquee>
+      <motion.div
+        className="mb-6 sm:mb-10"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={headerVariants}
+      >
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl sm:text-3xl font-bold gradient-text inline-block">projects.featured()</h2>
         </div>
+      </motion.div>
 
-        {renderContent()}
-      </div>
-    </section>
+      {renderContent()}
+    </div>
   );
 }

@@ -11,6 +11,11 @@ export default function ProjectsPage() {
     const [error, setError] = useState<string | null>(null);
     const [selectedTech, setSelectedTech] = useState<string | null>(null);
     const [allTechnologies, setAllTechnologies] = useState<string[]>([]);
+    const [filterOpen, setFilterOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    
+    // Popular/featured technologies to always show
+    const featuredTechs = ['React', 'TypeScript', 'Next.js', 'Node.js'];
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -46,6 +51,12 @@ export default function ProjectsPage() {
     const filteredProjects = selectedTech
         ? projects.filter(project => project.technologies.includes(selectedTech))
         : projects;
+
+    // Filter technologies based on search term
+    const filteredTechnologies = searchTerm
+        ? allTechnologies.filter(tech => 
+            tech.toLowerCase().includes(searchTerm.toLowerCase()))
+        : allTechnologies;
 
     // Animation variants
     const containerVariants = {
@@ -89,36 +100,110 @@ export default function ProjectsPage() {
                     scalable web applications with a focus on performance and user experience.
                 </motion.p>
 
-                {/* Filter by technology */}
+                {/* Technology Filter */}
                 {!loading && !error && allTechnologies.length > 0 && (
                     <motion.div
-                        className="flex flex-wrap gap-2 mb-8"
+                        className="mb-8"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                        <button
-                            onClick={() => setSelectedTech(null)}
-                            className={`px-3 py-1 text-sm rounded-full transition-colors ${selectedTech === null
-                                    ? 'bg-primary text-primary-foreground'
-                                    : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                                }`}
-                        >
-                            All
-                        </button>
-
-                        {allTechnologies.map(tech => (
+                        <div className="flex flex-wrap gap-2 mb-3">
+                            {/* All button */}
                             <button
-                                key={tech}
-                                onClick={() => setSelectedTech(tech)}
-                                className={`px-3 py-1 text-sm rounded-full transition-colors ${selectedTech === tech
+                                onClick={() => setSelectedTech(null)}
+                                className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                                    selectedTech === null
                                         ? 'bg-primary text-primary-foreground'
                                         : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                                    }`}
+                                }`}
                             >
-                                {tech}
+                                All
                             </button>
-                        ))}
+                            
+                            {/* Featured/popular technologies */}
+                            {featuredTechs
+                                .filter(tech => allTechnologies.includes(tech))
+                                .map(tech => (
+                                    <button
+                                        key={tech}
+                                        onClick={() => setSelectedTech(tech)}
+                                        className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                                            selectedTech === tech
+                                                ? 'bg-primary text-primary-foreground'
+                                                : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                                        }`}
+                                    >
+                                        {tech}
+                                    </button>
+                                ))}
+                                
+                            {/* Filter toggle button */}
+                            <button
+                                onClick={() => setFilterOpen(!filterOpen)}
+                                className="px-3 py-1 text-sm rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 flex items-center"
+                            >
+                                {filterOpen ? 'Hide filters' : 'More filters'}
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className={`ml-1 transition-transform ${filterOpen ? 'rotate-180' : ''}`}
+                                >
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        {/* Expanded filter panel */}
+                        {filterOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="bg-card p-4 rounded-lg border border-border mb-4"
+                            >
+                                <div className="mb-3">
+                                    <input
+                                        type="text"
+                                        placeholder="Search technologies..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="w-full p-2 text-sm bg-input border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                    />
+                                </div>
+                                
+                                <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto">
+                                    {filteredTechnologies.length > 0 ? (
+                                        filteredTechnologies.map(tech => (
+                                            <button
+                                                key={tech}
+                                                onClick={() => {
+                                                    setSelectedTech(tech);
+                                                    setFilterOpen(false);
+                                                }}
+                                                className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                                                    selectedTech === tech
+                                                        ? 'bg-primary text-primary-foreground'
+                                                        : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                                                }`}
+                                            >
+                                                {tech}
+                                            </button>
+                                        ))
+                                    ) : (
+                                        <p className="text-sm text-muted-foreground">No matching technologies found</p>
+                                    )}
+                                </div>
+                            </motion.div>
+                        )}
                     </motion.div>
                 )}
             </div>

@@ -22,29 +22,30 @@ export default function ContactForm() {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulate form submission
         try {
-            // In a real application, you would send this data to your backend
-            // await fetch('/api/contact', {
-            //   method: 'POST',
-            //   headers: { 'Content-Type': 'application/json' },
-            //   body: JSON.stringify(formData)
-            // });
+            // Send the actual email using a server endpoint
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
 
-            // Simulate network delay
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            if (!response.ok) {
+                throw new Error('Failed to send message');
+            }
 
             setSubmitStatus('success');
             setFormData({ name: '', email: '', subject: '', message: '' });
-        } catch {
+        } catch (error) {
+            console.error('Error sending message:', error);
             setSubmitStatus('error');
         } finally {
             setIsSubmitting(false);
 
-            // Reset status after 3 seconds
+            // Reset status after 5 seconds
             setTimeout(() => {
                 setSubmitStatus(null);
-            }, 3000);
+            }, 5000);
         }
     };
 

@@ -45,7 +45,7 @@ const skills = [
 // Always exploring and growing!`;
 
     return (
-        <section id="about" className="relative py-3 md:py-12 px-4 md:px-6 max-w-7xl mx-auto overflow-hidden">
+        <div id="about" className="relative overflow-hidden">
             {/* Background Dot Pattern */}
             <DotPattern
                 className="[mask-image:radial-gradient(500px_circle_at_right_center,white,transparent)]"
@@ -127,16 +127,16 @@ const skills = [
             </motion.div>
 
             <motion.div
-                className="mt-10 mb-10 flex justify-center"
+                className="mt-10 flex justify-center"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
             >
-                <Link href="/projects" className="btn btn-secondary text-sm py-2  w-full max-w-xs">
+                <Link href="/projects" className="btn btn-secondary text-sm py-2 w-full max-w-xs">
                     View Full Profile
                 </Link>
             </motion.div>
-        </section>
+        </div>
     );
 }

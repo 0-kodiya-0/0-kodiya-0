@@ -2,6 +2,12 @@
 
 import Link from 'next/link';
 import { DotPattern } from '../magicui/dot-pattern';
+import { 
+  FaGithub, 
+  FaLinkedin, 
+  FaStackOverflow 
+} from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
 
 export default function Footer() {
     const navigationLinks = [
@@ -12,10 +18,30 @@ export default function Footer() {
     ];
 
     const socialLinks = [
-        { name: 'GitHub', url: 'https://github.com/0-kodiya-0', handle: '@0-kodiya-0' },
-        { name: 'LinkedIn', url: 'https://www.linkedin.com/in/sanithu-jayakody-a541142ab/', handle: 'sanithu-jayakody' },
-        { name: 'Stack Overflow', url: 'https://stackoverflow.com/users/20159737/sanithu-jayakody', handle: 'sanithu-jayakody' },
-        { name: 'Email', url: 'mailto:sanithujayafiverr@gmail.com', handle: 'sanithujayafiverr@gmail.com' }
+        { 
+            name: 'GitHub', 
+            url: 'https://github.com/0-kodiya-0', 
+            handle: '@0-kodiya-0',
+            icon: FaGithub 
+        },
+        { 
+            name: 'LinkedIn', 
+            url: 'https://www.linkedin.com/in/sanithu-jayakody-a541142ab/', 
+            handle: 'sanithu-jayakody',
+            icon: FaLinkedin 
+        },
+        { 
+            name: 'Stack Overflow', 
+            url: 'https://stackoverflow.com/users/20159737/sanithu-jayakody', 
+            handle: 'sanithu-jayakody',
+            icon: FaStackOverflow 
+        },
+        { 
+            name: 'Email', 
+            url: 'mailto:contact@sanithu-jayakody.me', 
+            handle: 'contact@sanithu-jayakody.me',
+            icon: MdEmail 
+        }
     ];
 
     return (
@@ -29,10 +55,10 @@ export default function Footer() {
                 />
 
                 {/* Top Section: Logo and Navigation */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8 md:mb-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-8 mb-10 md:mb-14">
                     {/* Logo and Tagline */}
-                    <div className="md:col-span-2">
-                        <div className="font-mono font-bold text-xl sm:text-2xl mb-3 md:mb-4">
+                    <div className="md:col-span-6 flex flex-col">
+                        <div className="font-mono font-bold text-xl sm:text-2xl mb-4 md:mb-5">
                             <Link href="/" className="inline-flex hover:opacity-80 transition-opacity">
                                 <span className="text-primary">sanithu</span>
                                 <span className="text-foreground">@portfolio</span>
@@ -46,14 +72,13 @@ export default function Footer() {
                     </div>
 
                     {/* Navigation Links */}
-                    <div className="flex flex-col items-center sm:items-start">
-                        <h3 className="font-medium text-base sm:text-lg mb-3 md:mb-4 text-center sm:text-left">Navigate</h3>
-                        <ul className="space-y-2 md:space-y-3 flex flex-col items-center sm:items-start">
+                    <div className="md:col-span-3 flex flex-col items-center sm:items-start">
+                        <ul className="space-y-2.5 md:space-y-3.5 flex flex-col items-center sm:items-start">
                             {navigationLinks.map((link) => (
                                 <li key={link.title}>
                                     <Link
                                         href={link.path}
-                                        className="animated-underline inline-block text-sm sm:text-base hover:text-primary transition-colors"
+                                        className="animated-underline inline-block text-sm sm:text-base hover:text-primary transition-colors py-1"
                                     >
                                         {link.title}
                                     </Link>
@@ -63,35 +88,86 @@ export default function Footer() {
                     </div>
 
                     {/* Get in Touch */}
-                    <div className="flex flex-col items-center sm:items-start">
-                        <h3 className="font-medium text-base sm:text-lg mb-3 md:mb-4 text-center sm:text-left">Get in Touch</h3>
-                        <Link
-                            href="/contact"
-                            className="btn btn-primary inline-flex items-center justify-center sm-touch-target text-sm w-full sm:w-auto"
-                        >
-                            <span>Contact Me</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="ml-2"
+                    <div className="md:col-span-3 flex flex-col items-center sm:items-start">
+                        <h3 className="font-medium text-base sm:text-lg mb-4 md:mb-5 text-center sm:text-left">Get in Touch</h3>
+                        
+                        {/* Mobile buttons (stacked) */}
+                        <div className="flex flex-col w-full gap-3 sm:hidden">
+                            <Link
+                                href="/contact"
+                                className="btn btn-primary inline-flex items-center justify-center text-sm w-full px-4 py-2.5"
                             >
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </Link>
+                                <span>Contact Me</span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="ml-2"
+                                >
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </Link>
 
-                        <div className="mt-4 md:mt-6 w-full sm:w-auto">
                             <a
-                                href="/downloads/SanithuJayakody-Resume.pdf"
+                                href="/downloads/CV.pdf"
                                 download
-                                className="btn btn-secondary inline-flex items-center justify-center sm-touch-target text-sm w-full sm:w-auto"
+                                className="btn btn-secondary inline-flex items-center justify-center text-sm w-full px-4 py-2.5"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="mr-2"
+                                >
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                <span>Download CV</span>
+                            </a>
+                        </div>
+                        
+                        {/* Desktop buttons (side-by-side) */}
+                        <div className="hidden sm:flex sm:flex-row sm:gap-3 sm:w-full">
+                            <Link
+                                href="/contact"
+                                className="btn btn-primary inline-flex items-center justify-center text-sm flex-1 px-4 py-2.5"
+                            >
+                                <span>Contact Me</span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="ml-2"
+                                >
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </Link>
+
+                            <a
+                                href="/downloads/CV.pdf"
+                                download
+                                className="btn btn-secondary inline-flex items-center justify-center text-sm flex-1 px-4 py-2.5"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -120,21 +196,22 @@ export default function Footer() {
 
                 {/* Bottom Section: Copyright and Social Links */}
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div className="font-mono text-xs sm:text-sm text-center md:text-left">
+                    <div className="font-mono text-xs sm:text-sm text-center md:text-left order-2 md:order-1">
                         <span className="text-muted-foreground">{`// © ${new Date().getFullYear()} Sanithu Jayakody. All rights reserved.`}</span>
                     </div>
 
-                    <div className="flex flex-wrap gap-x-4 gap-y-2 justify-center">
+                    <div className="flex items-center gap-4 order-1 md:order-2">
                         {socialLinks.map((link) => (
                             <a
                                 key={link.name}
                                 href={link.url}
-                                className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center sm-touch-target"
+                                className="text-muted-foreground hover:text-primary transition-colors flex items-center justify-center"
                                 target={link.name === 'Email' ? '_self' : '_blank'}
                                 rel="noopener noreferrer"
+                                aria-label={link.name}
+                                title={link.name}
                             >
-                                <span className="mr-1">{link.name}</span>
-                                <span className="text-primary hidden sm:inline">{link.handle}</span>
+                                <link.icon className="text-xl sm:text-2xl" />
                             </a>
                         ))}
                     </div>
