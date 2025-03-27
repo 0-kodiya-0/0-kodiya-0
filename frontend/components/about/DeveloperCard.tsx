@@ -13,7 +13,7 @@ export interface DeveloperCardProps {
 }
 
 const DeveloperCard: React.FC<DeveloperCardProps> = ({
-    profileImage = '/profile-image-0.jpg' // Default path, update as needed
+    profileImage = '/profile-image.jpg' // Default path, update as needed
 }) => {
     return (
         <div className="relative h-72 w-72 mx-auto">

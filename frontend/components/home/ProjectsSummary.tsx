@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import ProjectCard from '../projects/ProjectCard';
-import { Project } from '../projects/project.types';
 import { DotPattern } from '../magicui/dot-pattern';
 import { Carousel } from '../shared/Carousel';
+import { Project } from '@/models/project';
+import { useGitHubAPI } from '@/hooks/useGitHubApi';
 
 // Animation variants - defined outside component to avoid recreation on renders
 const headerVariants = {
@@ -19,35 +20,42 @@ const headerVariants = {
 };
 
 export default function ProjectsSummary() {
-  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
+  const { getRepositories } = useGitHubAPI();
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchFeaturedProjects = async () => {
+    const fetchProjects = async () => {
       try {
-        const res = await fetch('/api/projects/featured');
+        const repos = await getRepositories(10);
 
-        if (!res.ok) {
-          throw new Error('Failed to fetch featured projects');
-        }
+        const projectData: Project[] = repos.map(repo => ({
+          name: repo.name,
+          description: repo.description || 'No description available',
+          technologies: [repo.language || 'Unknown'],
+          githubUrl: repo.html_url,
+          topics: repo.topics,
+          language: repo.language || 'Unknown',
+          stargazers_count: repo.stargazers_count,
+          forks_count: repo.forks_count
+        }));
 
-        const data = await res.json();
-        setFeaturedProjects(data);
+        setProjects(projectData);
       } catch (err) {
-        setError('Failed to load featured projects');
+        setError('Failed to load projects');
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchFeaturedProjects();
-  }, []);
+    fetchProjects();
+  }, [getRepositories]);
 
   // Prepare duplicated projects once
-  const projectsForDisplay = featuredProjects.length > 0
-    ? [...featuredProjects, ...featuredProjects]
+  const projectsForDisplay = projects.length > 0
+    ? [...projects, ...projects]
     : [];
 
   // Render components based on state
@@ -71,7 +79,7 @@ export default function ProjectsSummary() {
       );
     }
 
-    if (featuredProjects.length === 0) {
+    if (projects.length === 0) {
       return (
         <div className="text-center py-12 sm:py-16 border border-border rounded-lg bg-card px-4">
           <svg
@@ -106,7 +114,7 @@ export default function ProjectsSummary() {
               interval={6000}
             >
               {projectsForDisplay.map((project, index) => (
-                <div key={`mobile-${project.id}-${index}`} className="p-1">
+                <div key={`mobile-${project.name}-${index}`} className="p-1">
                   <ProjectCard project={project} />
                 </div>
               ))}
@@ -138,7 +146,7 @@ export default function ProjectsSummary() {
               itemsPerPage={3}
             >
               {projectsForDisplay.map((project, index) => (
-                <div key={`desktop-carousel-${project.id}-${index}`} className="p-2">
+                <div key={`desktop-carousel-${project.name}-${index}`} className="p-2">
                   <ProjectCard project={project} />
                 </div>
               ))}

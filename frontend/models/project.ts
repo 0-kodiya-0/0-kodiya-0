@@ -1,18 +1,15 @@
-// lib/models/project.ts
 export interface Project {
-    id: number;
-    title: string;
+    name: string;
     description: string;
-    longDescription: string;
     technologies: string[];
-    image: string;
-    projectUrl: string;
     githubUrl: string;
-    challenges: string[];
-    solutions: string[];
-    featured: boolean;
-    createdAt: string;
-    updatedAt: string;
+    homepage?: string;
+    readme?: string;
+    license?: string;
+    topics: string[];
+    language: string;
+    stargazers_count: number;
+    forks_count: number;
 }
 
 export type NewProject = Omit<Project, 'id' | 'createdAt' | 'updatedAt'>;
