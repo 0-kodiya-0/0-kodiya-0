@@ -1,16 +1,16 @@
-import { DatabaseSchema } from '@/models/project';
+// import { DatabaseSchema } from '@/models/project';
 import { TestimonialsSchema } from '@/models/testimonial';
 
 const API_URL = process.env.JSONBIN_API_URL;
 // Try multiple environment variable formats
 const MASTER_KEY = process.env.JSONBIN_MASTER_KEY;
-const PROJECTS_BIN_ID = process.env.JSONBIN_PROJECTS_BIN_ID;
+// const PROJECTS_BIN_ID = process.env.JSONBIN_PROJECTS_BIN_ID;
 const TESTIMONIALS_BIN_ID = process.env.JSONBIN_TESTIMONIALS_BIN_ID;
 
 const FORCE_SKIP = false;
 
 // Default empty data structures
-const DEFAULT_PROJECTS_DATA: DatabaseSchema = { projects: [] };
+// const DEFAULT_PROJECTS_DATA: DatabaseSchema = { projects: [] };
 const DEFAULT_TESTIMONIALS_DATA: TestimonialsSchema = { testimonials: [] };
 
 // Interface for fetch options
@@ -130,36 +130,36 @@ async function createBinIfNotExists<T>(name: string, defaultData: T): Promise<st
 }
 
 // Projects specific functions
-export const projectsService = {
-    async getAll(options?: FetchOptions): Promise<DatabaseSchema> {
-        try {
-            return await fetchFromJsonBin<DatabaseSchema>(
-                PROJECTS_BIN_ID as string,
-                DEFAULT_PROJECTS_DATA,
-                options
-            );
-        } catch (error) {
-            console.error('Error fetching projects:', error);
-            // Return empty data structure if bin doesn't exist yet
-            return DEFAULT_PROJECTS_DATA;
-        }
-    },
+// export const projectsService = {
+//     async getAll(options?: FetchOptions): Promise<DatabaseSchema> {
+//         try {
+//             return await fetchFromJsonBin<DatabaseSchema>(
+//                 PROJECTS_BIN_ID as string,
+//                 DEFAULT_PROJECTS_DATA,
+//                 options
+//             );
+//         } catch (error) {
+//             console.error('Error fetching projects:', error);
+//             // Return empty data structure if bin doesn't exist yet
+//             return DEFAULT_PROJECTS_DATA;
+//         }
+//     },
 
-    async update(data: DatabaseSchema, skipFetch?: boolean): Promise<DatabaseSchema> {
-        try {
-            return await updateJsonBin<DatabaseSchema>(PROJECTS_BIN_ID as string, data, skipFetch);
-        } catch (error) {
-            if (error instanceof Error && error.message.includes('404')) {
-                // Bin doesn't exist, create it
-                const binId = await createBinIfNotExists('projects', data);
-                console.log(`Created new projects bin with ID: ${binId}`);
-                // Now the bin exists, try updating again
-                return await updateJsonBin<DatabaseSchema>(binId, data);
-            }
-            throw error;
-        }
-    }
-};
+//     async update(data: DatabaseSchema, skipFetch?: boolean): Promise<DatabaseSchema> {
+//         try {
+//             return await updateJsonBin<DatabaseSchema>(PROJECTS_BIN_ID as string, data, skipFetch);
+//         } catch (error) {
+//             if (error instanceof Error && error.message.includes('404')) {
+//                 // Bin doesn't exist, create it
+//                 const binId = await createBinIfNotExists('projects', data);
+//                 console.log(`Created new projects bin with ID: ${binId}`);
+//                 // Now the bin exists, try updating again
+//                 return await updateJsonBin<DatabaseSchema>(binId, data);
+//             }
+//             throw error;
+//         }
+//     }
+// };
 
 // Testimonials specific functions
 export const testimonialsService = {

@@ -11,10 +11,3 @@ export interface Project {
     stargazers_count: number;
     forks_count: number;
 }
-
-export type NewProject = Omit<Project, 'id' | 'createdAt' | 'updatedAt'>;
-export type EditProject = Partial<Omit<Project, 'id' | 'createdAt' | 'updatedAt'>>;
-
-export interface DatabaseSchema {
-    projects: Project[];
-}

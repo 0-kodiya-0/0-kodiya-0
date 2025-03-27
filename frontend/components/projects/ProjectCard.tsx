@@ -7,7 +7,6 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
-    // Only show up to 4 technologies to maintain consistent card height
     const displayTechnologies = project.technologies.slice(0, 4);
     const hasMoreTech = project.technologies.length > 4;
 

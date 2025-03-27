@@ -2,8 +2,6 @@ import { revalidateTag } from 'next/cache';
 
 // Cache tags for different data types
 export const CACHE_TAGS = {
-  PROJECTS: 'projects',
-  FEATURED_PROJECTS: 'featured-projects',
   TESTIMONIALS: 'testimonials',
   FEATURED_TESTIMONIALS: 'featured-testimonials',
 };
@@ -14,14 +12,6 @@ export const DEFAULT_CACHE_TIME = 300;
 // Helper function to revalidate multiple cache tags
 export function revalidateMultipleTags(tags: string[]): void {
   tags.forEach(tag => revalidateTag(tag));
-}
-
-// Revalidate all project-related cache
-export function revalidateProjects(): void {
-  revalidateMultipleTags([
-    CACHE_TAGS.PROJECTS,
-    CACHE_TAGS.FEATURED_PROJECTS
-  ]);
 }
 
 // Revalidate all testimonial-related cache

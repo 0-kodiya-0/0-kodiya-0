@@ -1,7 +1,7 @@
 import { GitHubUserDetails, GitHubRepository, RepositoryContent } from "./github.types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_GIT_BASE_URL;
-const USERNAME = process.env.NEXT_PUBLIC_GIT_USERNAME
+const USERNAME = process.env.NEXT_PUBLIC_GIT_USERNAME;
 
 // Utility function for API request using fetch
 const fetchFromGitHub = async <T>(

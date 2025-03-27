@@ -3,11 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Project } from '@/components/projects/project.types';
 
 interface DashboardStats {
-    totalProjects: number;
-    featuredProjects: number;
     totalTestimonials: number;
 }
 
@@ -22,24 +19,17 @@ export default function AdminDashboardPage() {
                 setLoading(true);
 
                 // Fetch projects and testimonials from your API
-                const [projectsRes, testimonialsRes] = await Promise.all([
-                    fetch('/api/projects', { credentials: 'include' }),
+                const [testimonialsRes] = await Promise.all([
                     fetch('/api/testimonials', { credentials: 'include' })
                 ]);
 
-                if (!projectsRes.ok || !testimonialsRes.ok) {
+                if (!testimonialsRes.ok) {
                     throw new Error('Failed to fetch dashboard data');
                 }
 
-                const projects = await projectsRes.json();
                 const testimonials = await testimonialsRes.json();
 
-                // Calculate statistics
-                const featuredProjects = projects.filter((project: Project) => project.featured).length;
-
                 setStats({
-                    totalProjects: projects.length,
-                    featuredProjects: featuredProjects,
                     totalTestimonials: testimonials.length
                 });
 
@@ -128,50 +118,6 @@ export default function AdminDashboardPage() {
                 >
                     <div className="flex justify-between items-start">
                         <div>
-                            <p className="text-muted-foreground text-sm">Total Projects</p>
-                            <h3 className="text-3xl font-bold mt-1">{stats?.totalProjects}</h3>
-                        </div>
-                        <div className="p-2 bg-blue-100 rounded-md dark:bg-blue-900/30">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div className="mt-4">
-                        <Link href="/admin/projects" className="text-sm text-primary">
-                            Manage projects →
-                        </Link>
-                    </div>
-                </motion.div>
-
-                <motion.div
-                    className="bg-card rounded-lg border border-border p-6"
-                    variants={fadeIn}
-                >
-                    <div className="flex justify-between items-start">
-                        <div>
-                            <p className="text-muted-foreground text-sm">Featured Projects</p>
-                            <h3 className="text-3xl font-bold mt-1">{stats?.featuredProjects}</h3>
-                        </div>
-                        <div className="p-2 bg-purple-100 rounded-md dark:bg-purple-900/30">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div className="mt-4">
-                        <Link href="/admin/projects" className="text-sm text-primary">
-                            Manage featured →
-                        </Link>
-                    </div>
-                </motion.div>
-
-                <motion.div
-                    className="bg-card rounded-lg border border-border p-6"
-                    variants={fadeIn}
-                >
-                    <div className="flex justify-between items-start">
-                        <div>
                             <p className="text-muted-foreground text-sm">Testimonials</p>
                             <h3 className="text-3xl font-bold mt-1">{stats?.totalTestimonials}</h3>
                         </div>
@@ -198,12 +144,6 @@ export default function AdminDashboardPage() {
             >
                 <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    <Link href="/admin/projects/new" className="p-4 border border-border rounded-md hover:bg-card-hover transition-colors flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                        Add New Project
-                    </Link>
                     <Link href="/admin/testimonials/new" className="p-4 border border-border rounded-md hover:bg-card-hover transition-colors flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -217,7 +157,7 @@ export default function AdminDashboardPage() {
                         </svg>
                         Settings
                     </Link>
-                    <a href="/downloads/SanithuJayakody-Resume.pdf" download className="p-4 border border-border rounded-md hover:bg-card-hover transition-colors flex items-center">
+                    <a href="/downloads/CV.pdf" download className="p-4 border border-border rounded-md hover:bg-card-hover transition-colors flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
