@@ -37,6 +37,8 @@ export const useGitHubAPI = () => {
         }
     }, []);
 
+    
+
     const getUserDetails = useCallback(() =>
         fetchFromServerRoute<GitHubUserDetails>('user-details'),
         [fetchFromServerRoute]
