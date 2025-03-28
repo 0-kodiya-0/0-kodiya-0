@@ -11,5 +11,8 @@ declare namespace NodeJS {
 
         NEXT_PUBLIC_GIT_BASE_URL: string;
         NEXT_PUBLIC_GIT_USERNAME: string;
+
+        NEXT_PUBLIC_LEETCODE_BASE_URL: string
+        NEXT_PUBLIC_LEETCODE_USERNAME: string
     }
 }

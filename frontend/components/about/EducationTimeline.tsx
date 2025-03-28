@@ -40,7 +40,7 @@ const EducationTimeline: React.FC<EducationTimelineProps> = ({ educationTimeline
   
     return (
       <>
-        <h2 className="text-2xl font-bold mb-12 gradient-text text-center">Education</h2>
+        <h3 className="text-2xl font-bold mb-12 gradient-text text-center">Education</h3>
   
         {/* Desktop Timeline (hidden on mobile) */}
         <div className="hidden md:block max-w-4xl mx-auto relative">

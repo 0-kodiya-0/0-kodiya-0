@@ -10,4 +10,5 @@ export interface Project {
     language: string;
     stargazers_count: number;
     forks_count: number;
+    demoImage?: string;
 }

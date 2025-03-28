@@ -1,113 +1,99 @@
-import { useState, useEffect, useCallback } from 'react';
-import localforage from 'localforage';
+import { useCallback } from 'react';
 import {
-    fetchUserDetails,
-    fetchRepositories,
-    fetchRepositoryReadme,
-    fetchRepositoryLicense
-} from '../lib/services/github';
+    GitHubUserDetails,
+    GitHubRepository,
+    LanguageBreakdown,
+    ContributionStats,
+    ProfileInsights,
+    PopularRepository
+} from '@/lib/services/github.types';
 
-// Configure LocalForage for GitHub data
-const githubCache = localforage.createInstance({
-    name: 'GitHubAPICache',
-    storeName: 'githubData'
-});
-
-// Caching configuration
-const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour in milliseconds
-
-// Custom hook for GitHub API with multi-layer caching
 export const useGitHubAPI = () => {
-    const [isServiceWorkerReady, setIsServiceWorkerReady] = useState(false);
-
-    // Service Worker Registration
-    useEffect(() => {
-        const registerServiceWorker = async () => {
-            if ('serviceWorker' in navigator) {
-                try {
-                    const registration = await navigator.serviceWorker.register('/sw.js');
-                    console.log('Service Worker registered:', registration);
-                    setIsServiceWorkerReady(true);
-                } catch (error) {
-                    console.error('Service Worker registration failed:', error);
-                }
-            }
-        };
-
-        registerServiceWorker();
-    }, []);
-
-    // Cached fetch with multiple fallback mechanisms
-    const cachedFetch = useCallback(async <T>(
-        fetchFn: () => Promise<T>,
-        cacheKey: string
+    const fetchFromServerRoute = useCallback(async <T>(
+        endpoint: string,
+        params: Record<string, string | number> = {}
     ): Promise<T> => {
+        const queryParams = new URLSearchParams({
+            endpoint,
+            ...Object.fromEntries(
+                Object.entries(params).map(([k, v]) => [k, String(v)])
+            )
+        });
+
+        const response = await fetch(`/api/github?${queryParams}`, {
+            // Disable caching on the client-side fetch
+            cache: 'no-store'
+        });
+
+        if (!response.ok) {
+            const errorBody = await response.text();
+            throw new Error(`Server error: ${response.status} ${errorBody}`);
+        }
+
         try {
-            // Check LocalForage cache first
-            const cachedData = await githubCache.getItem<{
-                data: T;
-                timestamp: number;
-            }>(cacheKey);
-
-            // Return cached data if not expired
-            if (cachedData &&
-                (Date.now() - cachedData.timestamp) < CACHE_DURATION) {
-                return cachedData.data;
-            }
-
-            // Fetch fresh data
-            const freshData = await fetchFn();
-
-            // Store in LocalForage
-            await githubCache.setItem(cacheKey, {
-                data: freshData,
-                timestamp: Date.now()
-            });
-
-            return freshData;
-        } catch (error) {
-            // Fallback to cached data even if expired
-            const cachedData = await githubCache.getItem<{
-                data: T;
-                timestamp: number;
-            }>(cacheKey);
-
-            if (cachedData) {
-                console.warn('Using expired cached data');
-                return cachedData.data;
-            }
-
-            // If no cache, rethrow the error
-            throw error;
+            return await response.json();
+        } catch {
+            return response.body as T;
         }
     }, []);
 
-    // Specific GitHub data fetchers with caching
     const getUserDetails = useCallback(() =>
-        cachedFetch(fetchUserDetails, 'github-user-details'),
-        [cachedFetch]
-    );
-
-    const getRepositories = useCallback((limit = 10) =>
-        cachedFetch(() => fetchRepositories(limit), 'github-repositories'),
-        [cachedFetch]
+        fetchFromServerRoute<GitHubUserDetails>('user-details'),
+        [fetchFromServerRoute]
     );
 
     const getRepositoryReadme = useCallback((repoName: string) =>
-        cachedFetch(() => fetchRepositoryReadme(repoName), `readme-${repoName}`),
-        [cachedFetch]
+        fetchFromServerRoute<string>('readme', { repoName }),
+        [fetchFromServerRoute]
+    );
+    const getRepositoryLicense = useCallback((repoName: string) =>
+        fetchFromServerRoute<string>('license', { repoName }),
+        [fetchFromServerRoute]
+    );
+    const getRepositoryDemoImage = useCallback((repoName: string) =>
+        fetchFromServerRoute<string>('demo-image', { repoName }),
+        [fetchFromServerRoute]
     );
 
-    const getRepositoryLicense = useCallback((repoName: string) =>
-        cachedFetch(() => fetchRepositoryLicense(repoName), `license-${repoName}`),
-        [cachedFetch]
+    const getRepositories = useCallback(async (limit = 10) => {
+        const repos = await fetchFromServerRoute<GitHubRepository[]>('repositories', { limit })
+        return Promise.all(repos.map(async (repo) => {
+            const demoImage = await getRepositoryDemoImage(repo.name);
+            return { ...repo, demoImage };
+        }));
+    },
+        [fetchFromServerRoute, getRepositoryDemoImage]
+    );
+
+    const getLanguageBreakdown = useCallback(() =>
+        fetchFromServerRoute<LanguageBreakdown>('language-breakdown'),
+        [fetchFromServerRoute]
+    );
+
+    const getContributionStats = useCallback(() =>
+        fetchFromServerRoute<ContributionStats>('contribution-stats'),
+        [fetchFromServerRoute]
+    );
+
+    const getPopularRepositories = useCallback((limit = 10) =>
+        fetchFromServerRoute<PopularRepository[]>('popular-repositories', { limit }),
+        [fetchFromServerRoute]
+    );
+
+    const getProfileInsights = useCallback(() =>
+        fetchFromServerRoute<ProfileInsights>('profile-insights'),
+        [fetchFromServerRoute]
     );
 
     return {
         getUserDetails,
         getRepositories,
+        getLanguageBreakdown,
+        getContributionStats,
+        getPopularRepositories,
+        getProfileInsights,
         getRepositoryReadme,
         getRepositoryLicense,
-        isServiceWorkerReady
+        getRepositoryDemoImage
     };
 };

@@ -21,7 +21,7 @@ const headerVariants = {
 
 export default function ProjectsSummary() {
   const { getRepositories } = useGitHubAPI();
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<Project[] | []>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,7 +30,7 @@ export default function ProjectsSummary() {
       try {
         const repos = await getRepositories(10);
 
-        const projectData: Project[] = repos.map(repo => ({
+        const projectData = repos?.map(repo => ({
           name: repo.name,
           description: repo.description || 'No description available',
           technologies: [repo.language || 'Unknown'],
@@ -38,10 +38,11 @@ export default function ProjectsSummary() {
           topics: repo.topics,
           language: repo.language || 'Unknown',
           stargazers_count: repo.stargazers_count,
-          forks_count: repo.forks_count
+          forks_count: repo.forks_count,
+          demoImage: repo.demoImage
         }));
 
-        setProjects(projectData);
+        setProjects(projectData || []);
       } catch (err) {
         setError('Failed to load projects');
         console.error(err);

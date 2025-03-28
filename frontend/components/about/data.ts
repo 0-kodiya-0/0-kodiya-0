@@ -37,8 +37,6 @@ export interface SkillsData {
     design: string[];
     technical: string[];
     management: string[];
-    softSkills: string[];
-    languages: string[];
     [key: string]: string[]; // Index signature for any additional skill categories
 }
 
@@ -68,9 +66,7 @@ export const skills: SkillsData = {
   databases: ['MongoDB', 'MySQL'],
   design: ['UI/UX Design', 'Figma'],
   technical: ['Google Docs, Sheets, Forum', 'Microsoft Word, PowerPoint, Excel'],
-  management: ['Git', 'NPM', 'Stack', 'Project Management and Documentation'],
-  softSkills: ['Team Work', 'Innovation Skills', 'Excellent Knowledge'],
-  languages: ['English (Intermediate)', 'Sinhala (Fluent)']
+  management: ['Git', 'NPM', 'Stack', 'Project Management and Documentation']
 };
 
 export const competitions: CompetitionEntry[] = [

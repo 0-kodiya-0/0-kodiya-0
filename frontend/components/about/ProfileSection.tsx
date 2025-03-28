@@ -35,14 +35,13 @@ const ProfileSection: React.FC<ProfileSectionProps> = () => {
 
     return (
         <motion.section
-            className="mb-20 grid grid-cols-1 lg:grid-cols-3 gap-10 relative z-10"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-10 relative z-10"
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
         >
             <motion.div variants={fadeIn} className="lg:col-span-2">
                 <div className="space-y-4">
-                    <h2 className="text-2xl font-bold mb-4">Profile</h2>
                     <p>
                         I&apos;m Sanithu Nimadith Jayakody, an expert web developer with a passion for creating dynamic and user-friendly websites. I am specialized in crafting seamless digital experiences, with expertise spanning a wide range of technologies that enable me to develop innovative solutions.
                     </p>

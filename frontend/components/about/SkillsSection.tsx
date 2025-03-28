@@ -1,17 +1,10 @@
 'use client';
 
+import React from 'react';
 import { motion } from 'framer-motion';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { SkillsData } from './data';
 
-/**
- * SkillsSection component props
- */
-export interface SkillsSectionProps {
-  skills: SkillsData;
-}
-/**
- * SkillsSection component props
- */
 export interface SkillsSectionProps {
   skills: SkillsData;
 }
@@ -27,6 +20,17 @@ const CATEGORY_PROFICIENCY: Record<string, number[]> = {
   languages: [85, 98]
 };
 
+// Monochromatic color palette with black and gray tones
+const COLORS = [
+  '#000000',     // Pure Black
+  '#1A1A1A',     // Very Dark Gray
+  '#404040',     // Dark Gray
+  '#666666',     // Medium Gray
+  '#8C8C8C',     // Light Gray
+  '#B3B3B3',     // Lighter Gray
+  '#D9D9D9'      // Very Light Gray
+];
+
 const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
   // Animation variants
   const containerVariants = {
@@ -39,23 +43,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
 
-  const barVariants = {
-    hidden: { width: 0 },
-    visible: (proficiency: number) => ({
-      width: `${proficiency}%`,
-      transition: { duration: 1, ease: "easeOut", delay: 0.2 }
-    })
-  };
-
-  // Helper functions
-  const getBarColor = (proficiency: number) => {
-    if (proficiency > 90) return 'bg-primary';
-    if (proficiency > 80) return 'bg-primary/80';
-    return 'bg-primary/60';
-  };
-
   const formatCategoryName = (name: string) => {
-    // First capitalize the category name
     const formatted = name.replace(/([A-Z])/g, ' $1').trim();
     return formatted.charAt(0).toUpperCase() + formatted.slice(1);
   };
@@ -74,59 +62,90 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
       variants={containerVariants}
     >
       <motion.h2
-        className="text-2xl font-bold mb-10 gradient-text"
+        className="text-2xl font-bold mb-6 text-neutral-800 tracking-tight"
         variants={itemVariants}
       >
         Skills & Expertise
       </motion.h2>
 
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10"
+        className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6"
         variants={containerVariants}
       >
-        {Object.entries(skills).map(([category, skillList], catIndex) => (
-          <motion.div
-            key={category}
-            variants={itemVariants}
-            transition={{ delay: catIndex * 0.1 }}
-          >
-            <h3 className="text-lg font-medium mb-6 text-primary">
-              {formatCategoryName(category)}
-            </h3>
+        {Object.entries(skills).map(([category, skillList], catIndex) => {
+          // Transform skills data for pie chart
+          const pieData = skillList.map((skill, index) => ({
+            name: capitalizeSkillName(skill),
+            value: CATEGORY_PROFICIENCY[category]?.[index] || 80
+          }));
 
-            <div className="space-y-0">
-              {skillList.map((skill, index) => {
-                // Get the proficiency from the category array or use 80 as default
-                const proficiency = 
-                  (CATEGORY_PROFICIENCY[category] && CATEGORY_PROFICIENCY[category][index]) || 80;
-                
-                const isLast = index === skillList.length - 1;
-                
-                return (
-                  <motion.div
-                    key={index}
-                    className={`py-4 ${!isLast ? 'border-b border-border/30' : ''}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: (catIndex * 0.1) + (index * 0.05) }}
-                  >
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="font-medium">{capitalizeSkillName(skill)}</span>
-                      <span className="text-muted-foreground text-xs">{proficiency}%</span>
+          return (
+            <motion.div
+              key={category}
+              className="bg-white border border-neutral-200 rounded-lg p-4 shadow-sm"
+              variants={itemVariants}
+              transition={{ delay: catIndex * 0.1 }}
+            >
+              <h3 className="text-base font-semibold mb-3 text-neutral-700 border-b border-neutral-200 pb-1">
+                {formatCategoryName(category)}
+              </h3>
+
+              <div className="flex flex-col sm:flex-row items-center">
+                <div className="w-24 h-24 mb-4 sm:mb-0 sm:mr-4">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        outerRadius={40}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell 
+                            key={`cell-${index}`} 
+                            fill={COLORS[index % COLORS.length]} 
+                          />
+                        ))}
+                      </Pie>
+                      <Tooltip 
+                        formatter={(value, name) => [`${value}%`, name]}
+                        contentStyle={{ 
+                          backgroundColor: 'rgba(255,255,255,0.9)', 
+                          borderRadius: '8px',
+                          fontSize: '12px',
+                          padding: '6px',
+                          border: '1px solid #E5E5E5'
+                        }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Responsive Legend */}
+                <div className="w-full sm:flex-grow">
+                  {pieData.map((skill, index) => (
+                    <div 
+                      key={skill.name} 
+                      className="flex items-center gap-2 text-xs mb-1"
+                    >
+                      <span 
+                        className="w-2 h-2 rounded-full" 
+                        style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                      />
+                      <span className="truncate flex-grow text-neutral-800">{skill.name}</span>
+                      <span className="text-neutral-500">
+                        {skill.value}%
+                      </span>
                     </div>
-                    <div className="h-1 bg-card-hover/30 rounded-full overflow-hidden">
-                      <motion.div
-                        className={`h-full rounded-full ${getBarColor(proficiency)}`}
-                        custom={proficiency}
-                        variants={barVariants}
-                      ></motion.div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
-        ))}
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
       </motion.div>
     </motion.div>
   );

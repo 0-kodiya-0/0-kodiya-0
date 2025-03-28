@@ -5,10 +5,11 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'avatar.vercel.sh',
-                port: '',
-                pathname: '/**',
-                search: '',
             },
+            {
+                protocol: 'https',
+                hostname: 'raw.githubusercontent.com'
+            }
         ],
     }
 };

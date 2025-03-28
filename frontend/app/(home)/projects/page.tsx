@@ -1,5 +1,6 @@
 'use client';
 
+import SectionContainer from '@/components/layout/SectionContainer';
 import ProjectCard from '@/components/projects/ProjectCard';
 import { useGitHubAPI } from '@/hooks/useGitHubApi';
 import { Project } from '@/models/project';
@@ -7,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 export default function ProjectsPage() {
     const { getRepositories } = useGitHubAPI();
-    const [projects, setProjects] = useState<Project[]>([]);
+    const [projects, setProjects] = useState<Project[] | undefined>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -16,7 +17,7 @@ export default function ProjectsPage() {
             try {
                 const repos = await getRepositories(10);
 
-                const projectData: Project[] = repos.map(repo => ({
+                const projectData = repos?.map(repo => ({
                     name: repo.name,
                     description: repo.description || 'No description available',
                     technologies: [repo.language || 'Unknown'],
@@ -40,12 +41,8 @@ export default function ProjectsPage() {
     }, [getRepositories]);
 
     return (
-        <div className="max-w-7xl mx-auto py-16 px-6">
-            <h1 className="text-4xl font-bold mb-8 text-center">
-                My GitHub Projects
-            </h1>
-
-            {loading ? (
+        <SectionContainer>
+            {loading || !projects ? (
                 <div className="flex justify-center items-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary"></div>
                 </div>
@@ -60,6 +57,6 @@ export default function ProjectsPage() {
                     ))}
                 </div>
             )}
-        </div>
+        </SectionContainer>
     );
 }

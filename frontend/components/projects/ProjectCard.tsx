@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Project } from '@/models/project';
+import Image from 'next/image';
 
 interface ProjectCardProps {
     project: Project;
@@ -16,6 +17,22 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             whileHover={{ y: -5 }}
             transition={{ duration: 0.3 }}
         >
+            <div className="relative w-full h-48 overflow-hidden">
+                {project.demoImage ? (
+                    <Image
+                        width={500}
+                        height={500}
+                        src={project.demoImage}
+                        alt={`${project.name} demo`}
+                        className="object-cover transition-transform group-hover:scale-105"
+                    />
+                ) : (
+                    <div className="w-full h-full bg-muted/20 flex items-center justify-center">
+                        <span className="text-muted-foreground">No Preview</span>
+                    </div>
+                )}
+            </div>
+
             {/* Project Type Label */}
             <div className="absolute top-2 right-2 z-10">
                 <span className="inline-block text-xs px-2 py-1 bg-card-hover rounded-md border border-border/50 text-muted-foreground">
