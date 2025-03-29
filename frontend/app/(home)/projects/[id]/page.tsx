@@ -28,7 +28,7 @@ export default function ProjectDetail() {
     const projectName = params.id as string;
 
     const {
-        getRepositories,
+        getRepository,
         getRepositoryReadme,
         getRepositoryLicense,
         getRepositoryDemoImage
@@ -40,11 +40,12 @@ export default function ProjectDetail() {
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<'readme' | 'license'>('readme');
 
+    // In ProjectDetail.tsx
     useEffect(() => {
         const fetchProjectDetails = async () => {
             try {
-                const repos = await getRepositories(20);
-                const projectRepo = repos?.find(repo => repo.name === projectName);
+                // Get just the single repository instead of all repos
+                const projectRepo = await getRepository(projectName);
 
                 if (!projectRepo) {
                     setError('Project not found');
@@ -86,7 +87,7 @@ export default function ProjectDetail() {
         if (projectName) {
             fetchProjectDetails();
         }
-    }, [projectName, getRepositories, getRepositoryReadme, getRepositoryLicense, getRepositoryDemoImage]);
+    }, [projectName, getRepository, getRepositoryReadme, getRepositoryLicense, getRepositoryDemoImage]);
 
     if (loading) {
         return (

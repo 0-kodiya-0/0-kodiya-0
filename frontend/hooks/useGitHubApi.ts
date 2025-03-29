@@ -30,14 +30,16 @@ export const useGitHubAPI = () => {
             throw new Error(`Server error: ${response.status} ${errorBody}`);
         }
 
-        try {
-            return await response.json();
-        } catch {
-            return response.body as T;
+        const contentType = response.headers.get('content-type');
+
+        if (contentType && contentType.includes('application/json')) {
+            return await response.json() as T;
+        } else {
+            // Handle text responses (readme, license)
+            const text = await response.text();
+            return text as unknown as T;
         }
     }, []);
-
-    
 
     const getUserDetails = useCallback(() =>
         fetchFromServerRoute<GitHubUserDetails>('user-details'),
@@ -52,10 +54,11 @@ export const useGitHubAPI = () => {
         fetchFromServerRoute<string>('license', { repoName }),
         [fetchFromServerRoute]
     );
-    const getRepositoryDemoImage = useCallback((repoName: string) =>
-        fetchFromServerRoute<string>('demo-image', { repoName }),
-        [fetchFromServerRoute]
-    );
+    const getRepositoryDemoImage = useCallback(async (repoName: string) => {
+        const response = await fetchFromServerRoute<{ url: string | undefined }>('demo-image', { repoName });
+        return response.url;
+    }, [fetchFromServerRoute]);
+
 
     const getRepositories = useCallback(async (limit = 10) => {
         const repos = await fetchFromServerRoute<GitHubRepository[]>('repositories', { limit })
@@ -65,6 +68,11 @@ export const useGitHubAPI = () => {
         }));
     },
         [fetchFromServerRoute, getRepositoryDemoImage]
+    );
+
+    const getRepository = useCallback((repoName: string) =>
+        fetchFromServerRoute<GitHubRepository>('repository', { repoName }),
+        [fetchFromServerRoute]
     );
 
     const getLanguageBreakdown = useCallback(() =>
@@ -93,6 +101,7 @@ export const useGitHubAPI = () => {
         getLanguageBreakdown,
         getContributionStats,
         getPopularRepositories,
+        getRepository,
         getProfileInsights,
         getRepositoryReadme,
         getRepositoryLicense,

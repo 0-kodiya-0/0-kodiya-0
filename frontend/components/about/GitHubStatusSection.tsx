@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useGitHubAPI } from '@/hooks/useGitHubApi';
 import { ProfileInsights } from '@/lib/services/github.types';
+import Link from 'next/link';
 
 const GitHubStatusSection: React.FC = () => {
     const [profileInsights, setProfileInsights] = useState<ProfileInsights | null>(null);
@@ -172,29 +173,31 @@ const GitHubStatusSection: React.FC = () => {
                                         key={repo.name}
                                         className="rounded-lg p-4 
                                             hover:bg-white/20 transition-all 
-                                            border border-gray-900/10 flex justify-between items-center"
+                                            border border-gray-900/10 "
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                     >
-                                        <div>
-                                            <div className="font-medium text-gray-800 dark:text-white/80">
-                                                {repo.name}
+                                        <Link href={repo.html_url} className='flex justify-between items-center'>
+                                            <div>
+                                                <div className="font-medium text-gray-800 dark:text-white/80">
+                                                    {repo.name}
+                                                </div>
+                                                <div className="text-xs text-gray-600 dark:text-white/50 line-clamp-1">
+                                                    {repo.description || 'No description'}
+                                                </div>
                                             </div>
-                                            <div className="text-xs text-gray-600 dark:text-white/50 line-clamp-1">
-                                                {repo.description || 'No description'}
+                                            <div className="text-right">
+                                                <div className="flex items-center space-x-2 text-sm">
+                                                    <Star className="w-4 h-4" />
+                                                    <span className="text-gray-700 dark:text-white/80">{repo.stargazers_count}</span>
+                                                    <GitFork className="w-4 h-4 ml-2" />
+                                                    <span className="text-gray-700 dark:text-white/80">{repo.forks_count}</span>
+                                                </div>
+                                                <div className="text-xs text-gray-600 dark:text-white/50 mt-1">
+                                                    Health: {repo.healthPercentage}%
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="text-right">
-                                            <div className="flex items-center space-x-2 text-sm">
-                                                <Star className="w-4 h-4" />
-                                                <span className="text-gray-700 dark:text-white/80">{repo.stargazers_count}</span>
-                                                <GitFork className="w-4 h-4 ml-2" />
-                                                <span className="text-gray-700 dark:text-white/80">{repo.forks_count}</span>
-                                            </div>
-                                            <div className="text-xs text-gray-600 dark:text-white/50 mt-1">
-                                                Health: {repo.healthPercentage}%
-                                            </div>
-                                        </div>
+                                        </Link>
                                     </motion.div>
                                 ))}
                             </div>

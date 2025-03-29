@@ -25,6 +25,18 @@ async function getRepositories(limit = 10) {
     );
 }
 
+async function getRepository(repoName: string): Promise<GitHubRepository | null> {
+    try {
+        const repos = await fetchGitHubData<GitHubRepository>(
+            `/repos/${USERNAME}/${repoName}`
+        )
+        return repos;
+    } catch (error) {
+        console.error(`Error fetching repository ${repoName}:`, error);
+        return null;
+    }
+}
+
 async function getLanguageBreakdown(): Promise<LanguageBreakdown> {
     try {
         const repos = await fetchGitHubData<GitHubRepository[]>(
@@ -56,8 +68,7 @@ async function getLanguageBreakdown(): Promise<LanguageBreakdown> {
 
         // Calculate percentages
         for (const lang of Object.keys(languageStats)) {
-            languageStats[lang].percentage =
-                (languageStats[lang].bytes / totalBytes) * 100;
+            languageStats[lang].percentage = (languageStats[lang].bytes / totalBytes) * 100;
         }
 
         return languageStats;
@@ -68,18 +79,22 @@ async function getLanguageBreakdown(): Promise<LanguageBreakdown> {
 }
 
 
-const fetchRepositoryDemoImage = async (repoName: string): Promise<string | undefined> => {
+const fetchRepositoryDemoImage = async (repoName: string): Promise<string | null> => {
     try {
         const content = await fetchGitHubData<RepositoryContent>(
             `/repos/${USERNAME}/${repoName}/contents/docs/demo-image.png`
         );
+        const download_url = await content.download_url;
 
         // If the image exists, return its download URL
-        return content.download_url;
+        if (download_url === undefined) {
+            return null
+        } 
+        return download_url;
     } catch {
-        // If no image is found, return undefined
+        // If no image is found, return null
         console.log(`No demo image found for ${repoName}`);
-        return undefined;
+        return null;
     }
 };
 
@@ -230,6 +245,16 @@ export async function GET(request: NextRequest) {
                     { revalidate: CACHE_DURATION }
                 )());
 
+            case 'repository':
+                if (!repoName) {
+                    throw "query repoName is missing";
+                }
+                return NextResponse.json(await unstable_cache(
+                    async () => await getRepository(repoName),
+                    [`github-repository-${repoName}`],
+                    { revalidate: CACHE_DURATION }
+                )());
+
             case 'language-breakdown':
                 return NextResponse.json(await unstable_cache(
                     async () => await getLanguageBreakdown(),
@@ -263,20 +288,34 @@ export async function GET(request: NextRequest) {
                 if (!repoName) {
                     throw "query repoName is missing";
                 }
-                return new NextResponse(await fetchRepositoryReadme(repoName), { status: 200 });
+                return NextResponse.json(await unstable_cache(
+                    async () => await fetchRepositoryReadme(repoName),
+                    [`github-readme-${repoName}`],
+                    { revalidate: CACHE_DURATION }
+                )());
 
             case 'license':
                 if (!repoName) {
                     throw "query repoName is missing";
                 }
-                return new NextResponse(await fetchRepositoryLicense(repoName), { status: 200 });
+                return NextResponse.json(await unstable_cache(
+                    async () => await fetchRepositoryLicense(repoName),
+                    [`github-license-${repoName}`],
+                    { revalidate: CACHE_DURATION }
+                )());
 
             case 'demo-image':
                 if (!repoName) {
                     throw "query repoName is missing";
                 }
-                return new NextResponse(await fetchRepositoryDemoImage(repoName), { status: 200 });
-
+                return NextResponse.json(await unstable_cache(
+                    async () => {
+                        const demoImageUrl = await fetchRepositoryDemoImage(repoName);
+                        return { url: demoImageUrl };
+                    },
+                    [`github-demo-image-${repoName}`],
+                    { revalidate: CACHE_DURATION }
+                )());
             default:
                 return NextResponse.json({ error: 'Invalid endpoint' }, { status: 400 });
         }

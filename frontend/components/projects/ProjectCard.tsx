@@ -43,7 +43,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             {/* Project Info - Fixed Height Container */}
             <div className="flex flex-col flex-grow">
                 {/* Title with fixed height */}
-                <div className="h-14 mb-2 pr-10">
+                <div className="h-14 mt-2 mb-3 pr-10">
                     <h3 className="text-xl font-bold leading-tight line-clamp-2 group-hover:text-primary transition-colors">
                         {project.name}
                     </h3>

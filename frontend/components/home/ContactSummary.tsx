@@ -162,13 +162,13 @@ export default function ContactSummary() {
                 Send a Message
               </Link>
 
-              <a
-                href="/downloads/SanithuJayakody-Resume.pdf"
+              <Link
+                href="/downloads/CV.pdf"
                 download
                 className="btn btn-secondary w-full justify-center text-center text-sm py-2"
               >
                 Download Resume
-              </a>
+              </Link>
             </div>
           </motion.div>
         </div>

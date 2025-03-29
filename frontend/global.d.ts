@@ -9,6 +9,8 @@ declare namespace NodeJS {
         JSONBIN_PROJECTS_BIN_ID: string;
         JSONBIN_TESTIMONIALS_BIN_ID: string;
 
+        GIT_AUTH_TOKEN: string;
+
         NEXT_PUBLIC_GIT_BASE_URL: string;
         NEXT_PUBLIC_GIT_USERNAME: string;
 

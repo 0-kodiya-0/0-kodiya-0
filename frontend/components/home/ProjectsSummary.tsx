@@ -5,9 +5,17 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import ProjectCard from '../projects/ProjectCard';
 import { DotPattern } from '../magicui/dot-pattern';
-import { Carousel } from '../shared/Carousel';
 import { Project } from '@/models/project';
 import { useGitHubAPI } from '@/hooks/useGitHubApi';
+
+// Import shadcn/ui Carousel components
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 // Animation variants - defined outside component to avoid recreation on renders
 const headerVariants = {
@@ -53,11 +61,6 @@ export default function ProjectsSummary() {
 
     fetchProjects();
   }, [getRepositories]);
-
-  // Prepare duplicated projects once
-  const projectsForDisplay = projects.length > 0
-    ? [...projects, ...projects]
-    : [];
 
   // Render components based on state
   const renderContent = () => {
@@ -105,22 +108,25 @@ export default function ProjectsSummary() {
 
     return (
       <>
-        {/* Mobile Carousel View */}
+        {/* Mobile Carousel View - Shows 1 item at a time */}
         <div className="block md:hidden">
-          <div className="relative">
-            <Carousel
-              showArrows={false}
-              showIndicators={true}
-              autoPlay={true}
-              interval={6000}
-            >
-              {projectsForDisplay.map((project, index) => (
-                <div key={`mobile-${project.name}-${index}`} className="p-1">
-                  <ProjectCard project={project} />
-                </div>
+          <Carousel
+            opts={{
+              align: "center",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {projects.map((project, index) => (
+                <CarouselItem key={`mobile-${project.name}-${index}`} className="basis-full">
+                  <div className="p-1">
+                    <ProjectCard project={project} />
+                  </div>
+                </CarouselItem>
               ))}
-            </Carousel>
-          </div>
+            </CarouselContent>
+          </Carousel>
 
           {/* Mobile-only "View All Projects" button */}
           <motion.div
@@ -136,21 +142,27 @@ export default function ProjectsSummary() {
           </motion.div>
         </div>
 
-        {/* Desktop View - Always Carousel */}
+        {/* Desktop View - Shows 3 items at a time */}
         <div className="hidden md:block">
-          <div className="relative max-w-full mx-auto lg:px-20 md:px-16 sm:px-5">
+          <div className="relative group"> {/* Added group class */}
             <Carousel
-              showArrows={true}
-              showIndicators={true}
-              autoPlay={true}
-              interval={8000}
-              itemsPerPage={3}
+              opts={{
+                align: "center",
+                loop: true,
+              }}
+              className="w-full"
             >
-              {projectsForDisplay.map((project, index) => (
-                <div key={`desktop-carousel-${project.name}-${index}`} className="p-2">
-                  <ProjectCard project={project} />
-                </div>
-              ))}
+              <CarouselContent className="-ml-2 md:-ml-4">
+                {projects.map((project, index) => (
+                  <CarouselItem key={`desktop-${project.name}-${index}`} className="pl-2 md:pl-4 basis-full md:basis-1/3">
+                    <div className="p-1">
+                      <ProjectCard project={project} />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
             </Carousel>
           </div>
 

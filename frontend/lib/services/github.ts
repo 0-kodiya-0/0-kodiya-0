@@ -16,7 +16,8 @@ export async function fetchGitHubData<T>(
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${process.env.GIT_AUTH_TOKEN}`
             }
         });
 
