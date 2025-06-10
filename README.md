@@ -12,8 +12,6 @@
 
 ---
 
-<img align="right" width="400" src="https://github-readme-stats.vercel.app/api?username=0-kodiya-0&show_icons=true&theme=tokyonight&hide_border=true" />
-
 ## `> whoami`
 
 ```typescript
@@ -75,8 +73,6 @@ const developer = {
 
 [![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=0-kodiya-0&layout=compact&theme=tokyonight&hide_border=true)](https://github.com/anuraghazra/github-readme-stats)
 
-[![LeetCode Stats](https://leetcode-stats.vercel.app/api?username=sanithujayafiverr&theme=Dark)](https://leetcode.com/sanithujayafiverr/)
-
 </div>
 
 ## `> cat contact.json`
@@ -96,29 +92,3 @@ const developer = {
   [![Stack Overflow](https://img.shields.io/badge/Stack_Overflow-FE7A16?style=for-the-badge&logo=stack-overflow&logoColor=white)](https://stackoverflow.com/users/20159737)
   
 </div>
-
-## `> ./developer.js --run`
-
-```javascript
-// Life of a passionate developer
-function lifeOfDeveloper() {
-  const day = new Date().getDay();
-  
-  if(isBugFound()) {
-    fixBug();
-    coffee++;
-  }
-  
-  if(coffee < 3) {
-    refillCoffee();
-  }
-  
-  const todaysProgress = code();
-  
-  // No matter what, keep coding!
-  return tomorrow(lifeOfDeveloper);
-}
-
-// Running infinitely...
-setInterval(lifeOfDeveloper, 24 * 60 * 60 * 1000);
-```
